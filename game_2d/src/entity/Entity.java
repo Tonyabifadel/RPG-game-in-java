@@ -75,6 +75,9 @@ public class Entity {
 	public int attackValue;
 	public int defenseValue;
 	
+	public String description = "" ;
+	
+	
 	
 	
 	

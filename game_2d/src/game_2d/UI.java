@@ -29,6 +29,8 @@ public class UI {
 	public int commandNum = 0;
 	public int titleScreenState = 0; // 0 the first screen, 1 second screen 
 	
+	public int slotCol = 0;
+	public int slotRow = 0;
 	
 	
 	public UI(GamePanel gp) {
@@ -95,11 +97,83 @@ public class UI {
 		
 		if(gp.gameState == gp.characterState) {
 			drawCharacterScreen();
+			drawCharacterInventory();
 		}
 	}
 
 	
 	
+	private void drawCharacterInventory() { 
+		//Frame
+		int frameX = gp.tileSize*9 ;
+		int frameY = gp.tileSize;
+		int frameWidth = gp.tileSize * 6;
+		int frameHeight = gp.tileSize * 5;
+
+		
+		drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+		
+		//20 SLOT FOR NOW
+		final int slotXstart = frameX + 20;
+		final int slotYstart = frameY + 20;
+		int slotX = slotXstart;
+		int slotY = slotYstart;
+		int slotSize = gp.tileSize + 3; 
+
+		
+		//Draw Player's Items
+		for(int i =0;i<gp.player.inventory.size();i++) {
+			g2.drawImage(gp.player.inventory.get(i).down1 , slotX , slotY , null);
+			
+			slotX += slotSize;
+			
+			if(i == 4 || i == 9 || i== 14) {
+				slotX = slotXstart;
+				slotY += slotSize;
+			}
+			
+		}
+		
+
+		//Drawing cursor
+		int cursorX = slotXstart + (slotSize * slotCol);
+		int cursorY  = slotYstart + (slotSize * slotRow);
+		int cursorWidth = gp.tileSize;
+		int cursorHeight = gp.tileSize;
+		
+		
+		//Draw Cursor
+		g2.setColor(Color.white);
+		g2.setStroke(new BasicStroke(3));
+		g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight , 10,10);
+	
+		//Desc Frame
+		int dFrameX = frameX;
+		int dFrameY = frameY + frameHeight;
+		int dFrameWidth = frameWidth;
+		int dFrameHeight = gp.tileSize*3;
+		
+		drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+		
+		//Draw Desc Text 
+		int textX = dFrameX + 20;
+		int textY = dFrameY + gp.tileSize;
+		g2.setFont(g2.getFont().deriveFont(28F));
+		int itemIndex = getItemIndexonSlot();
+		if(itemIndex < gp.player.inventory.size()) {
+			
+			for(String line: gp.player.inventory.get(itemIndex).description.split("\n")){
+				g2.drawString(line, textX, textY);
+				textY +=32;
+			}
+		}
+		
+	}
+
+	public int getItemIndexonSlot() {
+		int itemIndex = slotCol + (slotRow*5);
+		return itemIndex;
+	}
 	private void drawMessage() {
 		int messageX  = gp.tileSize ;
 		int messageY  = gp.tileSize * 4 ;

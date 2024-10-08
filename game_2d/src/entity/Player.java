@@ -8,12 +8,14 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
 import game_2d.GamePanel;
 import game_2d.KeyHandler;
 import game_2d.UtilityTool;
+import object.OBJ_Key;
 import object.OBJ_Shield_Wood;
 import object.OBJ_Sword_Normal;
 
@@ -24,6 +26,9 @@ public class Player extends Entity{
 	public final int screenY;
 	int standingCounter = 0;
 	public boolean attackCanceled = false;
+	public ArrayList<Entity> inventory = new ArrayList<>();
+	//public final int inventorySize = 20;
+	
 	public Player (GamePanel gp , KeyHandler keyh) {
 		
 		super(gp);
@@ -49,6 +54,7 @@ public class Player extends Entity{
 		setDefaultValue();
 		getPlayerImage();
 		getPlayerAttackImage();
+		setItems();
 	}
 
 	public void setDefaultValue() {	
@@ -79,6 +85,14 @@ public class Player extends Entity{
 		
 	}	
 
+	public void setItems() {
+		inventory.add(currentWeapon);
+		inventory.add(currentShield);
+		inventory.add(new OBJ_Key(gp));
+		inventory.add(new OBJ_Key(gp));
+		
+		
+	}
 	private int getDefense() {
 		// TODO Auto-generated method stub
 		return  defense = dexterity * currentShield.defenseValue;
