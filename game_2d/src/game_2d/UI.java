@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import entity.Entity;
 import object.OBJ_Heart;
@@ -20,8 +21,9 @@ public class UI {
 	//Font x , y
 	BufferedImage heart_full ,heart_half, heart_blank;
 	public boolean messageOn  =false;
-	public String message = "";
-	int messageCounter=0;
+
+	ArrayList<String> message = new ArrayList<>();
+	ArrayList<Integer> messageCounter = new ArrayList<>();
 	public boolean gameFinished =false;
 	public String currentDialogue = "";
 	public int commandNum = 0;
@@ -53,9 +55,9 @@ public class UI {
 	}
 	
 	
-	public void showMessage(String text) {
-		message = text;
-		messageOn =true;
+	public void addMessage(String text) {
+		message.add(text);
+		messageCounter.add(0);
 	}
 	
 	
@@ -76,6 +78,7 @@ public class UI {
 		if(gp.gameState == gp.playState) {
 			//Do play state
 			drawPlayerLife();
+			drawMessage();
 		}
 		
 		//Pause State
@@ -96,6 +99,35 @@ public class UI {
 	}
 
 	
+	
+	private void drawMessage() {
+		int messageX  = gp.tileSize ;
+		int messageY  = gp.tileSize * 4 ;
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD,32F));
+		
+		for(int i = 0;i<message.size();i++) {
+			
+			if(message.get(i)!= null) {
+				g2.setColor(Color.black);
+				g2.drawString(message.get(i), messageX + 2 , messageY + 2);
+				g2.setColor(Color.white);
+				g2.drawString(message.get(i), messageX , messageY);
+				
+				int counter = messageCounter.get(i) + 1; //messageCounter++
+				messageCounter.set(i , counter); //set the counter in the arrayList
+				messageY += 50;
+				
+				if(messageCounter.get(i) > 180) {
+					message.remove(i);
+					messageCounter.remove(i);
+				}
+			}
+		}
+		
+		
+	}
+
+
 	private void drawCharacterScreen() {
 		//Create a sub window
 		final int frameX = gp.tileSize;

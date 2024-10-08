@@ -13,9 +13,9 @@ public class Main {
 		GamePanel gamePanel = new GamePanel();
 		window.add(gamePanel);
 
-		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 		window.pack();
+		window.setLocationRelativeTo(null);
 		gamePanel.setupGame();
 		gamePanel.StartGameThread();
 			
