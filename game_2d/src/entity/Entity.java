@@ -42,6 +42,7 @@ public class Entity {
 	public int actionLockCounter = 0;
 	public boolean invincible = false;
 	public int invincibleCounter = 0;
+	public int shotAvailableCounter = 0;
 	int dyingCounter = 0;
 	int hpBarCounter = 0;
 	
@@ -61,6 +62,8 @@ public class Entity {
 	public int maxLife;
 	public int life;
 	
+	public int maxMana;
+	public int mana;
 	public int level;
 	public int strength;
 	public int dexterity;
@@ -74,10 +77,11 @@ public class Entity {
 	
 	public int attackValue;
 	public int defenseValue;
+	public Projectile projectile;
 	
 	public String description = "" ;
 	
-	
+	public int useCost;
 	
 	
 	
@@ -148,18 +152,7 @@ public class Entity {
 		
 		//checking if monster attack player
 		if(this.type ==2 && contactPlayer==true) {
-			if(gp.player.invincible==false) {
-				
-				gp.playSE(6);
-				
-				int damage = attack - gp.player.defense;
-				if(damage<0) {
-					damage = 0;
-				}
-				
-				gp.player.life -=damage;
-				gp.player.invincible=true;
-			}
+			damagePlayer(attack);
 			
 		}
 		
@@ -194,8 +187,28 @@ public class Entity {
 			
 		}
 		
+		if(shotAvailableCounter < 30) {
+			shotAvailableCounter++;
+		}
+		
 	}	
 	
+	public void damagePlayer(int attack) {
+		if(gp.player.invincible==false) {
+			
+			gp.playSE(6);
+			
+			int damage = attack - gp.player.defense;
+			if(damage<0) {
+				damage = 0;
+			}
+			
+			gp.player.life -=damage;
+			gp.player.invincible=true;
+		}
+		
+		
+	}
 	
 
 	public void draw(Graphics2D g2){
@@ -302,7 +315,6 @@ public class Entity {
 		if(dyingCounter>i*6 && dyingCounter<=i*8) {changeAlpha(g2 , 1f);}
 		
 		if(dyingCounter>i*8) {
-			dying = false;
 			alive = false;
 		}
 		

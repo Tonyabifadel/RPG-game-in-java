@@ -2,11 +2,12 @@ package game_2d;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.security.Key;
 
 public class KeyHandler implements KeyListener {
 
 	GamePanel gp;
-	public boolean upPressed , downPressed,leftPressed , rightPressed , enterPressed;
+	public boolean upPressed , downPressed,leftPressed , rightPressed , enterPressed , shotKeyPressed;
 	
 	boolean showDebugText = false;
 	
@@ -139,6 +140,8 @@ public class KeyHandler implements KeyListener {
 		}
 		
 	}
+	
+	
 	public void playState(int code){
 		if(code==KeyEvent.VK_W) {
 			upPressed=true;
@@ -184,7 +187,14 @@ public class KeyHandler implements KeyListener {
 			gp.tileM.loadMap("/maps/worldV2.txt");
 			
 		}
+		
+		if(code == KeyEvent.VK_F) {
+			shotKeyPressed=true;
+		}
 	}
+
+	
+	
 	
 	public void pauseState(int code) {
 		if(code==KeyEvent.VK_P) {
@@ -260,6 +270,10 @@ public class KeyHandler implements KeyListener {
 		
 		if(code==KeyEvent.VK_D) {
 			rightPressed=false;
+		}
+		
+		if(code==KeyEvent.VK_F) {
+			shotKeyPressed=false;
 		}
 		
 		
