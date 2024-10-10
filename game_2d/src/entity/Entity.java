@@ -56,12 +56,21 @@ public class Entity {
 	public BufferedImage image , image2, image3;
 	public String name;
 	public boolean collision = false;
+	
 	public int type; //type of entity 0-player-1-npc 2-monster
+	public final int type_player = 0;
+	public final int type_npc = 1;
+	public final int type_monster = 2;
+	public final int type_sword = 3;
+	public final int type_axe = 4;
+	public final int type_shield = 5;
+	public final int type_consumable = 6;
 	
 	//Character Status
 	public int maxLife;
 	public int life;
 	
+	public int ammo;
 	public int maxMana;
 	public int mana;
 	public int level;
@@ -114,6 +123,9 @@ public class Entity {
 	public void damageReaction() {
 		
 	}
+	public void use(Entity entity) {
+		
+	}
 	
 	public void speak() {
 		if(dialogues[dialogueIndex]==null) {
@@ -151,7 +163,7 @@ public class Entity {
 		boolean contactPlayer = gp.cChecker.checkPlayer(this);
 		
 		//checking if monster attack player
-		if(this.type ==2 && contactPlayer==true) {
+		if(this.type ==type_monster && contactPlayer==true) {
 			damagePlayer(attack);
 			
 		}

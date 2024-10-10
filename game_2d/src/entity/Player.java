@@ -17,6 +17,7 @@ import game_2d.KeyHandler;
 import game_2d.UtilityTool;
 import object.OBJ_Fireball;
 import object.OBJ_Key;
+import object.OBJ_Rock;
 import object.OBJ_Shield_Wood;
 import object.OBJ_Sword_Normal;
 
@@ -28,7 +29,7 @@ public class Player extends Entity{
 	int standingCounter = 0;
 	public boolean attackCanceled = false;
 	public ArrayList<Entity> inventory = new ArrayList<>();
-	//public final int inventorySize = 20;
+	public final int inventoryMaxSize = 20;
 	
 	public Player (GamePanel gp , KeyHandler keyh) {
 		
@@ -49,8 +50,12 @@ public class Player extends Entity{
 		solidArea.width =32 ;
 		solidArea.height = 32;
 		
-		attackArea.width = 36;
-		attackArea.height = 36;
+//		attackArea.width = 36;
+//		attackArea.height = 36;
+		
+		maxMana = 4;
+		mana = maxMana;
+		ammo = 10;
 		
 		setDefaultValue();
 		getPlayerImage();
@@ -80,7 +85,9 @@ public class Player extends Entity{
 		coin = 0 ;
 		currentWeapon = new OBJ_Sword_Normal(gp);
 		currentShield = new OBJ_Shield_Wood(gp);
-		projectile = new OBJ_Fireball(gp);
+//		projectile = new OBJ_Fireball(gp);
+		projectile = new OBJ_Rock(gp);
+
 		attack = getAttack();
 		defense = getDefense();
 		
@@ -90,8 +97,8 @@ public class Player extends Entity{
 	public void setItems() {
 		inventory.add(currentWeapon);
 		inventory.add(currentShield);
-		inventory.add(new OBJ_Key(gp));
-		inventory.add(new OBJ_Key(gp));
+//		inventory.add(new OBJ_Key(gp));
+//		inventory.add(new OBJ_Key(gp));
 		
 		
 	}
@@ -101,6 +108,7 @@ public class Player extends Entity{
 	}
 
 	private int getAttack() {
+		attackArea = currentWeapon.attackArea;
 		// TODO Auto-generated method stub
 		return attack = strength * currentWeapon.attackValue;
 	}
@@ -118,7 +126,10 @@ public class Player extends Entity{
 
 	}
 	
-	public void getPlayerAttackImage() {
+	public void getPlayerAttackImage() { 
+		if(currentWeapon.type == type_sword) {
+			
+		
 		attackUp1    = setup("/player/boy_attack_up_1",gp.tileSize ,gp.tileSize*2);
 		attackUp2    = setup("/player/boy_attack_up_2",gp.tileSize ,gp.tileSize*2);
 		attackDown1  = setup("/player/boy_attack_down_1",gp.tileSize ,gp.tileSize*2);
@@ -128,6 +139,21 @@ public class Player extends Entity{
 		attackRight1 = setup("/player/boy_attack_right_1",gp.tileSize *2,gp.tileSize);
 		attackRight2 = setup("/player/boy_attack_right_2",gp.tileSize *2,gp.tileSize);
 	}
+		
+	if(currentWeapon.type == type_axe) {
+		
+		
+		attackUp1    = setup("/player/boy_axe_up_1",gp.tileSize ,gp.tileSize*2);
+		attackUp2    = setup("/player/boy_axe_up_2",gp.tileSize ,gp.tileSize*2);
+		attackDown1  = setup("/player/boy_axe_down_1",gp.tileSize ,gp.tileSize*2);
+		attackDown2  = setup("/player/boy_axe_down_2",gp.tileSize ,gp.tileSize*2);
+		attackLeft1  = setup("/player/boy_axe_left_1",gp.tileSize*2 ,gp.tileSize);
+		attackLeft2  = setup("/player/boy_axe_left_2",gp.tileSize*2 ,gp.tileSize);
+		attackRight1 = setup("/player/boy_axe_right_1",gp.tileSize *2,gp.tileSize);
+		attackRight2 = setup("/player/boy_axe_right_2",gp.tileSize *2,gp.tileSize);
+	}
+		
+}
 	
 	
 	public void update() { 
@@ -220,10 +246,13 @@ public class Player extends Entity{
 		
 		
 		// projectile.alive == false means you can only shoot one at a time 
-		if(gp.keyH.shotKeyPressed == true && projectile.alive == false && shotAvailableCounter == 30) {
+		if(gp.keyH.shotKeyPressed == true && projectile.alive == false && shotAvailableCounter == 30 && projectile.haveResource(this) == true) {
 			
 			//Set default coordinates , direction and user
 			projectile.set(worldX , worldY , direction , true , this);
+			
+			//Subtract cost after shooting
+			projectile.subtractResource(this);
 			gp.projectileList.add(projectile);
 			shotAvailableCounter = 0;
 			gp.playSE(10);
@@ -356,8 +385,19 @@ public class Player extends Entity{
 		//choose not a number not used in object's array index
 		//999 means we did not touch anything 
 		if(i != 999) {
-			
+			String text ;
+			if(inventory.size() != inventoryMaxSize){
+				inventory.add(gp.obj[i]);
+				gp.playSE(1);
+				text = "GOT A " + gp.obj[i].name +"!";
 				
+			}
+			else {
+				text = "INVENTORY FULL";
+			}
+				
+			gp.ui.addMessage(text);
+			gp.obj[i] = null;
 			}
 		
 		
@@ -379,6 +419,31 @@ public class Player extends Entity{
 			
 	}
 	
+	public void selectItem() {
+		
+		int itemIndex = gp.ui.getItemIndexonSlot();
+		
+		if(itemIndex < inventory.size()) {
+			Entity selectedItem = inventory.get(itemIndex);
+
+			if(selectedItem.type == type_sword || selectedItem.type == type_axe) {
+				currentWeapon = selectedItem;
+				attack = getAttack();
+				getPlayerAttackImage();
+			}
+			
+			if(selectedItem.type == type_shield) {
+				currentShield= selectedItem;
+				defense = getDefense();
+			}
+			
+			if(selectedItem.type == type_consumable) {
+			selectedItem.use(this);
+			inventory.remove(itemIndex);
+			}
+			
+		}
+	}
 	public void draw(Graphics2D g2) {
 			
 			BufferedImage image = null;

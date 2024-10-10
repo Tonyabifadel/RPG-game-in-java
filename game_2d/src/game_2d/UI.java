@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import entity.Entity;
 import object.OBJ_Heart;
 import object.OBJ_Key;
+import object.OBJ_ManaCrystal;
 
 public class UI {
 	
@@ -19,7 +20,7 @@ public class UI {
 	Font arial_40 , arial_80;
 	//import your own later
 	//Font x , y
-	BufferedImage heart_full ,heart_half, heart_blank;
+	BufferedImage heart_full ,heart_half, heart_blank , crystal_full,crystal_blank;
 	public boolean messageOn  =false;
 
 	ArrayList<String> message = new ArrayList<>();
@@ -43,7 +44,9 @@ public class UI {
 		heart_full  = heart.image;
 		heart_half  = heart.image2;
 		heart_blank = heart.image3;
-		
+		Entity Crystal = new OBJ_ManaCrystal(gp);
+		crystal_full = Crystal.image;
+		crystal_blank = Crystal.image2;
 		
 		/*InputStream is = getClass().getResourcesAsStream('.file path to font');
 		 * try{
@@ -119,10 +122,19 @@ public class UI {
 		int slotX = slotXstart;
 		int slotY = slotYstart;
 		int slotSize = gp.tileSize + 3; 
-
 		
+		
+	
 		//Draw Player's Items
 		for(int i =0;i<gp.player.inventory.size();i++) {
+			//Equip Cursor
+			if(gp.player.inventory.get(i) == gp.player.currentShield || gp.player.inventory.get(i) == gp.player.currentWeapon) {
+				g2.setColor(new Color(240,190,90));
+				g2.fillRoundRect(slotX, slotY, gp.tileSize, gp.tileSize, 10,10);
+				
+
+			}
+			
 			g2.drawImage(gp.player.inventory.get(i).down1 , slotX , slotY , null);
 			
 			slotX += slotSize;
@@ -133,6 +145,8 @@ public class UI {
 			}
 			
 		}
+		
+		
 		
 
 		//Drawing cursor
@@ -153,24 +167,27 @@ public class UI {
 		int dFrameWidth = frameWidth;
 		int dFrameHeight = gp.tileSize*3;
 		
-		drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
 		
 		//Draw Desc Text 
 		int textX = dFrameX + 20;
 		int textY = dFrameY + gp.tileSize;
 		g2.setFont(g2.getFont().deriveFont(28F));
 		int itemIndex = getItemIndexonSlot();
+		
 		if(itemIndex < gp.player.inventory.size()) {
-			
+			drawSubWindow(dFrameX, dFrameY, dFrameWidth, dFrameHeight);
+	
 			for(String line: gp.player.inventory.get(itemIndex).description.split("\n")){
 				g2.drawString(line, textX, textY);
 				textY +=32;
 			}
 		}
 		
+		
+		
 	}
 
-	public int getItemIndexonSlot() {
+	public int getItemIndexonSlot() { 
 		int itemIndex = slotCol + (slotRow*5);
 		return itemIndex;
 	}
@@ -222,6 +239,8 @@ public class UI {
 		textY += lineHeight;
 		drawCharacterOnWindom("Life", textX, textY );
 		textY += lineHeight;
+		drawCharacterOnWindom("Life", textX, textY );
+		textY += lineHeight;
 		drawCharacterOnWindom("Strenght", textX, textY );
 		textY += lineHeight;
 		drawCharacterOnWindom("Dexterity", textX, textY );
@@ -254,6 +273,12 @@ public class UI {
 		textX = getXforAlignToRightText(value,tailX);
 		g2.drawString(value, tailX, textY);
 		textY += lineHeight;
+		
+		value = String.valueOf(gp.player.mana +"/"+gp.player.maxMana );
+		textX = getXforAlignToRightText(value,tailX);
+		g2.drawString(value, tailX, textY);
+		textY += lineHeight;
+		
 		
 		value = String.valueOf(gp.player.strength);
 		textX = getXforAlignToRightText(value,tailX);
@@ -291,9 +316,9 @@ public class UI {
 		
 		textY += lineHeight;
 
-		g2.drawImage(gp.player.currentWeapon.down1,tailX - 10, textY - 13 , null);
+		g2.drawImage(gp.player.currentWeapon.down1,tailX - 10, textY - 24 , null);
 		textY += gp.tileSize;
-		g2.drawImage(gp.player.currentShield.down1,tailX - 10 , textY - 13 , null);
+		g2.drawImage(gp.player.currentShield.down1,tailX - 10 , textY - 24 , null);
 		
 		
 		
@@ -344,6 +369,29 @@ public class UI {
 			 i++;
 			 x+=gp.tileSize;
 		 }
+		 
+		 //Draw Max MANA
+		 x = (gp.tileSize/2) - 5;
+		 y = (int) (gp.tileSize*1.5) ;
+		 i=0;
+		 
+		 while(i<gp.player.maxMana) {
+			 g2.drawImage(crystal_blank, x, y, null);
+			 i++;
+			 x+= 35;
+		 }
+		 
+		 //DRAW MANA
+		 x = (gp.tileSize/2) - 5;
+		 y = (int) (gp.tileSize*1.5) ;
+		 i=0;
+		 
+		 while(i<gp.player.mana) {
+			 g2.drawImage(crystal_full, x, y, null);
+			 i++;
+			 x+= 35;
+		 }
+		 	
 	}
 
 
