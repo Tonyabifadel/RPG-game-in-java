@@ -1,13 +1,17 @@
 package game_2d;
 
 import object.OBJ_Key;
+import object.OBJ_ManaCrystal;
 import object.OBJ_Potion_Red;
 import object.OBJ_Shield_Blue;
+import tile_interactive.IT_DryTree;
 import object.OBJ_Door;
+import object.OBJ_Heart;
 import entity.NPC_OldMan;
 import monster.MON_GreenSlime;
 import object.OBJ_Axe;
 import object.OBJ_Boots;
+import object.OBJ_Bronze_Coin;
 import object.OBJ_Chest;
 
 public class AssetSetter {
@@ -20,18 +24,18 @@ public class AssetSetter {
 	public void setObject() {
 		int i = 0;
 		
-		gp.obj[i] = new OBJ_Key(gp);
+		gp.obj[i] = new OBJ_Bronze_Coin(gp);
 		gp.obj[i].worldX = gp.tileSize*25;
 		gp.obj[i].worldY = gp.tileSize*19;
 		i++;
 		
-		gp.obj[i] = new OBJ_Key(gp);
+		gp.obj[i] = new OBJ_ManaCrystal(gp);
 		gp.obj[i].worldX = gp.tileSize*21;
 		gp.obj[i].worldY = gp.tileSize*19;
 		i++;
 		
 		
-		gp.obj[i] = new OBJ_Key(gp);
+		gp.obj[i] = new OBJ_Heart(gp);
 		gp.obj[i].worldX = gp.tileSize*26;
 		gp.obj[i].worldY = gp.tileSize*21;
 		i++;
@@ -93,8 +97,23 @@ public class AssetSetter {
 		i++;
 		
 	
+	}
 	
-	
+	public void setInteractiveTile() {
+		int i = 0;
+
+		gp.iTile[i] = new IT_DryTree(gp , 27,12);
+		i++;
+		gp.iTile[i] = new IT_DryTree(gp , 28,12);
+		i++;
+		gp.iTile[i] = new IT_DryTree(gp , 29,12);
+		i++;
+		gp.iTile[i] = new IT_DryTree(gp , 30,12);
+		i++;
+		gp.iTile[i] = new IT_DryTree(gp , 31,12);
+		i++;
+		gp.iTile[i] = new IT_DryTree(gp , 32,12);
+		i++;
 	}
 	
 	

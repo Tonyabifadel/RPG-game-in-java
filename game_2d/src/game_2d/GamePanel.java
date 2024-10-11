@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 import entity.Entity;
 import entity.Player;
+import tile_interactive.InteractiveTile;
 import tiles.TileManager;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -49,10 +50,11 @@ public class GamePanel extends JPanel implements Runnable{
 	public Player player = new Player(this,keyH);
 	//the number 10 means that we can show only 10 objects at the same time
 	//only 10 at 1 time
-	public Entity obj[] = new Entity[10];
-	public Entity npc[] = new Entity[10];
+	public Entity obj[] = new Entity[20];
+	public Entity npc[] = new Entity[20];
 	public Entity monster[] = new Entity[25];
 	
+	public InteractiveTile iTile[] = new InteractiveTile[50];
 	public ArrayList<Entity> projectileList = new ArrayList<Entity>();
 	ArrayList<Entity> entityList = new ArrayList<Entity>();
 	
@@ -79,6 +81,7 @@ public class GamePanel extends JPanel implements Runnable{
 		aSetter.setObject();
 		aSetter.setNPC();
 		aSetter.setMonster();
+		aSetter.setInteractiveTile();
 		gameState = titleState;
 	}
 
@@ -184,6 +187,7 @@ public class GamePanel extends JPanel implements Runnable{
 						monster[i].update();
 					}
 					if(monster[i].alive ==false) {
+						monster[i].checkDrop();
 						monster[i] =null;
 					}
 					
@@ -202,6 +206,11 @@ public class GamePanel extends JPanel implements Runnable{
 				}
 			}
 			
+		}
+		for(int i = 0;i<iTile.length;i++) {
+			if(iTile[i]!=null) {
+				iTile[i].update();
+			}
 		}
 		if(gameState==pauseState) {
 			//nothing
@@ -230,6 +239,12 @@ public class GamePanel extends JPanel implements Runnable{
 		//Tile Draw
 		tileM.draw(g2);
 	
+		//draw interactive tile
+		for(int i =0 ;i<iTile.length;i++) {
+			if(iTile[i]!=null) {
+				iTile[i].draw(g2);
+			}
+		}
 		//add entity to list
 		entityList.add(player);
 		

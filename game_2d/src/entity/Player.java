@@ -85,8 +85,8 @@ public class Player extends Entity{
 		coin = 0 ;
 		currentWeapon = new OBJ_Sword_Normal(gp);
 		currentShield = new OBJ_Shield_Wood(gp);
-//		projectile = new OBJ_Fireball(gp);
-		projectile = new OBJ_Rock(gp);
+		projectile = new OBJ_Fireball(gp);
+//		projectile = new OBJ_Rock(gp);
 
 		attack = getAttack();
 		defense = getDefense();
@@ -199,6 +199,8 @@ public class Player extends Entity{
 			int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
 			contactMonster(monsterIndex);
 			
+			gp.cChecker.checkEntity(this, gp.iTile);
+			
 			//check Event 
 			gp.eHandler.checkEvent();
 			
@@ -272,6 +274,9 @@ public class Player extends Entity{
 			shotAvailableCounter++;
 		}
 		
+		if(life > maxLife) {life = maxLife;}
+		if(mana > maxMana) {mana = maxMana;}
+		
 		
 		
 	}
@@ -306,6 +311,9 @@ public class Player extends Entity{
 			int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
 			damageMonster(monsterIndex , attack);
 		
+			int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
+			damageInteractiveTile(iTileIndex);
+			
 			worldX = currentWorldX;
 			worldY = currentWorldY;
 			solidArea.width= solidAreaWidth;
@@ -317,7 +325,26 @@ public class Player extends Entity{
 			attacking = false;
 		}
 		
+		
+		
 	}
+
+	private void damageInteractiveTile(int iTileIndex) {
+		if(iTileIndex!=999 && gp.iTile[iTileIndex].destructible == true
+			&& gp.iTile[iTileIndex].isCorrectItem(this) == true
+			&& gp.iTile[iTileIndex].invincible == false) {
+			gp.iTile[iTileIndex].playSE();
+			gp.iTile[iTileIndex].life --;
+			gp.iTile[iTileIndex].invincible = true;
+			
+			if(gp.iTile[iTileIndex].life ==0) {
+				
+			
+			gp.iTile[iTileIndex]= gp.iTile[iTileIndex].getDestroyedForm();
+		}
+	}
+	
+}
 
 	public void damageMonster(int i , int attack) {
 		if(i!=999) {
@@ -384,7 +411,19 @@ public class Player extends Entity{
 	public void pickUpObject(int i) {
 		//choose not a number not used in object's array index
 		//999 means we did not touch anything 
-		if(i != 999) {
+		
+		if(i!=999) {
+			
+		
+		//PickUp objects
+		if(gp.obj[i].type == type_pickUp_Only) {
+			
+			gp.obj[i].use(this);
+			gp.obj[i] = null;
+		}
+		
+		//inventory items
+		else {
 			String text ;
 			if(inventory.size() != inventoryMaxSize){
 				inventory.add(gp.obj[i]);
@@ -398,9 +437,10 @@ public class Player extends Entity{
 				
 			gp.ui.addMessage(text);
 			gp.obj[i] = null;
-			}
-		
-		
+			
+		}
+	
+	}
 	}
 	
 	public void interactNPC(int i) {

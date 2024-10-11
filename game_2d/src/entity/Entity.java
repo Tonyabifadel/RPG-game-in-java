@@ -46,6 +46,7 @@ public class Entity {
 	int dyingCounter = 0;
 	int hpBarCounter = 0;
 	
+	public int value;
 	
 	public boolean attacking = false;
 	
@@ -65,7 +66,8 @@ public class Entity {
 	public final int type_axe = 4;
 	public final int type_shield = 5;
 	public final int type_consumable = 6;
-	
+	public final int type_pickUp_Only = 7;
+
 	//Character Status
 	public int maxLife;
 	public int life;
@@ -127,6 +129,22 @@ public class Entity {
 		
 	}
 	
+	public void checkDrop() {
+		
+	}
+	
+	public void dropItem(Entity droppedItem) {
+		for(int i = 0;i<gp.obj.length;i++) {
+			if(gp.obj[i] == null) {
+				gp.obj[i] = droppedItem;
+				gp.obj[i].worldX = worldX; //dead monster's worldx and worldy
+				gp.obj[i].worldY = worldY;
+				break;
+			}
+		}
+		
+	}
+	
 	public void speak() {
 		if(dialogues[dialogueIndex]==null) {
 			dialogueIndex = 0;
@@ -160,6 +178,8 @@ public class Entity {
 		gp.cChecker.checkObject(this, false);
 		gp.cChecker.checkEntity(this, gp.npc);
 		gp.cChecker.checkEntity(this, gp.monster);
+		gp.cChecker.checkEntity(this, gp.iTile);
+		
 		boolean contactPlayer = gp.cChecker.checkPlayer(this);
 		
 		//checking if monster attack player
@@ -303,7 +323,7 @@ public class Entity {
 			if(dying == true) {
 				dyingAnimation(g2);
 			}
-			g2.drawImage(image , screenX, screenY, gp.tileSize,gp.tileSize,null);
+			g2.drawImage(image , screenX, screenY, null);
 			
 			changeAlpha(g2,1f);
 			

@@ -5,7 +5,6 @@ import game_2d.GamePanel;
 
 public class OBJ_Potion_Red extends Entity {
 	GamePanel gp;
-	int value = 5;
 	public OBJ_Potion_Red(GamePanel gp) {
 		super(gp);
 		this.gp=gp;
@@ -13,6 +12,7 @@ public class OBJ_Potion_Red extends Entity {
 		name = "Red Potion";
 		down1= setup("/objects/potion_red",gp.tileSize , gp.tileSize);
 		defenseValue = 2;
+		value = 5;
 	
 		description = "[" + name + "]\nA Red Portion that\nheals your life by " + value;
 
@@ -23,9 +23,6 @@ public class OBJ_Potion_Red extends Entity {
 				+ "Your life has been recovered by " + value;
 		
 		entity.life +=value;
-		if(gp.player.life > gp.player.maxLife) {
-			gp.player.life =gp.player.maxLife;
-		}
 		gp.playSE(2);
 	}
 
