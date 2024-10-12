@@ -337,6 +337,8 @@ public class Player extends Entity{
 			gp.iTile[iTileIndex].life --;
 			gp.iTile[iTileIndex].invincible = true;
 			
+			generateParticle(gp.iTile[iTileIndex] , gp.iTile[iTileIndex]);
+			
 			if(gp.iTile[iTileIndex].life ==0) {
 				
 			
