@@ -530,21 +530,19 @@ public class UI {
 		//Create a sub window
 		final int frameX = gp.tileSize * 2;
 		final int frameY = gp.tileSize;
-		final int frameWidth = gp.tileSize * 7;
+		final int frameWidth = gp.tileSize * 6;
 		final int frameHeight = gp.tileSize * 10;
 		drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 		
 		//TEXT
 		g2.setColor(Color.white);
-		g2.setFont(g2.getFont().deriveFont(32F));
+		g2.setFont(g2.getFont().deriveFont(30F));
 		
 		int textX = frameX + 20;
 		int textY = frameY + gp.tileSize;
 		final int lineHeight = 35;
 		
 		drawCharacterOnWindom("Level", textX, textY);
-		textY += lineHeight;
-		drawCharacterOnWindom("Life", textX, textY );
 		textY += lineHeight;
 		drawCharacterOnWindom("Life", textX, textY );
 		textY += lineHeight;
@@ -578,12 +576,12 @@ public class UI {
 
 		value = String.valueOf(gp.player.life +"/"+gp.player.maxLife );
 		textX = getXforAlignToRightText(value,tailX);
-		g2.drawString(value, tailX, textY);
+		g2.drawString(value, tailX -5, textY);
 		textY += lineHeight;
 		
 		value = String.valueOf(gp.player.mana +"/"+gp.player.maxMana );
 		textX = getXforAlignToRightText(value,tailX);
-		g2.drawString(value, tailX, textY);
+		g2.drawString(value, tailX-5, textY);
 		textY += lineHeight;
 		
 		

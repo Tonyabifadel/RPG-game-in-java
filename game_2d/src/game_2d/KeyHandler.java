@@ -85,6 +85,7 @@ public class KeyHandler implements KeyListener {
 			if(gp.ui.commandNum==0) {
 				gp.gameState = gp.playState;
 				gp.retry();
+				gp.playerMusic(0);
 			}
 			else if(gp.ui.commandNum ==1) {
 				gp.gameState = gp.titleState;
@@ -293,9 +294,13 @@ public class KeyHandler implements KeyListener {
 			
 		}
 		
-		if(code ==KeyEvent.VK_R) {
-			gp.tileM.loadMap("/maps/worldV2.txt");
+		if(code == KeyEvent.VK_R) {
+			switch(gp.currentMap) {
 			
+			case 0:gp.tileM.loadMap("/maps/worldV3.txt",0); break;
+			case 1:gp.tileM.loadMap("/maps/interior01.txt",1); break;
+
+			}
 		}
 		
 		if(code == KeyEvent.VK_F) {
