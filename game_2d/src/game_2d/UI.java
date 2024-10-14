@@ -107,10 +107,57 @@ public class UI {
 		if(gp.gameState == gp.optionsState) {
 			drawOptionScreen();
 		}
+		
+		if(gp.gameState == gp.gameOverState) {
+			darwgameOverScreen();
+		}
+		
 	}
 
 	
 	
+	private void darwgameOverScreen() {
+		g2.setColor(new Color(0,0,0,150));
+		g2.fillRect(0, 0, gp.screenWidth, gp.screenHeight);
+		
+		int x ;
+		int y ;
+		String text;
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD , 110f));
+		
+		text = "Game Over";
+		//SHADOW
+		g2.setColor(Color.black);
+		x = getXforCenteredText(text);
+		y = gp.tileSize * 4;
+		g2.drawString(text, x, y);
+		//MAIN
+		g2.setColor(Color.white);
+		g2.drawString(text, x-4, y-4);
+		
+		//Retry
+		g2.setFont(g2.getFont().deriveFont(50f));
+		text = "Retry";
+		x = getXforCenteredText(text);
+		y += gp.tileSize * 4;
+		g2.drawString(text, x, y);
+		if(commandNum == 0) {
+			g2.drawString(">", x-40, y);
+		}
+		
+		
+		//Quit
+		text = "Quit";
+		x = getXforCenteredText(text);
+		y += 55;
+		g2.drawString(text, x, y);
+		if(commandNum == 1) {
+			g2.drawString(">", x-40, y);
+		}
+	
+	}
+
+
 	private void drawOptionScreen() {
 		g2.setColor(Color.white);
 		g2.setFont(g2.getFont().deriveFont(30F));
@@ -158,11 +205,11 @@ public class UI {
 		if(commandNum == 0) {
 			g2.drawString(">", textX-25 , textY);
 			if(gp.keyH.enterPressed ==true) {
-				if(gp.FullScreenOn==false) {
-					gp.FullScreenOn=true;
+				if(gp.fullScreenOn==false) {
+					gp.fullScreenOn=true;
 				}
-				else if(gp.FullScreenOn==true) {
-					gp.FullScreenOn=false;
+				else if(gp.fullScreenOn==true) {
+					gp.fullScreenOn=false;
 				} 
 					
 			subState = 1;	
@@ -224,7 +271,7 @@ public class UI {
 		g2.setStroke(new BasicStroke(3));
 		g2.drawRect(textX, textY , 24, 24);
 		
-		if(gp.FullScreenOn == true) {
+		if(gp.fullScreenOn == true) {
 			g2.fillRect(textX, textY, 24, 24);
 		}
 		
@@ -483,7 +530,7 @@ public class UI {
 		//Create a sub window
 		final int frameX = gp.tileSize * 2;
 		final int frameY = gp.tileSize;
-		final int frameWidth = gp.tileSize * 6;
+		final int frameWidth = gp.tileSize * 7;
 		final int frameHeight = gp.tileSize * 10;
 		drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 		
