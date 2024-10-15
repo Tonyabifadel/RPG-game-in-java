@@ -13,6 +13,7 @@ public class OBJ_Potion_Red extends Entity {
 		down1= setup("/objects/potion_red",gp.tileSize , gp.tileSize);
 		defenseValue = 2;
 		value = 5;
+		price = 20;
 	
 		description = "[" + name + "]\nA Red Portion that\nheals your life by " + value;
 

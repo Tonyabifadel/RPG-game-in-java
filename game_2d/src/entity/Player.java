@@ -28,8 +28,6 @@ public class Player extends Entity{
 	public final int screenY;
 	int standingCounter = 0;
 	public boolean attackCanceled = false;
-	public ArrayList<Entity> inventory = new ArrayList<>();
-	public final int inventoryMaxSize = 20;
 	
 	public Player (GamePanel gp , KeyHandler keyh) {
 		
@@ -66,10 +64,12 @@ public class Player extends Entity{
 	public void setDefaultValue() {	 
 		
 		//position of player where he start
-		worldX=gp.tileSize*23;
-		worldY=gp.tileSize*21;
-//		worldX=gp.tileSize*12;
-//		worldY=gp.tileSize*13;
+		
+//		worldX=gp.tileSize*23;
+//		worldY=gp.tileSize*21;
+	
+		worldX=gp.tileSize*12;
+		worldY=gp.tileSize*10;
 		
 		speed=8;
 		direction ="down";
@@ -85,7 +85,7 @@ public class Player extends Entity{
 		dexterity = 1;
 		exp = 0;
 		nextLevelExp = 5;
-		coin = 0 ;
+		coin = 200 ;
 		currentWeapon = new OBJ_Sword_Normal(gp);
 		currentShield = new OBJ_Shield_Wood(gp);
 		projectile = new OBJ_Fireball(gp);
@@ -484,7 +484,7 @@ public class Player extends Entity{
 	
 	public void selectItem() {
 		
-		int itemIndex = gp.ui.getItemIndexonSlot();
+		int itemIndex = gp.ui.getItemIndexonSlot(gp.ui.playerSlotCol , gp.ui.playerSlotRow);
 		
 		if(itemIndex < inventory.size()) {
 			Entity selectedItem = inventory.get(itemIndex);

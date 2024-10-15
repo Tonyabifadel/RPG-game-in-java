@@ -1,5 +1,6 @@
 package game_2d;
- 
+
+import entity.Entity;
 
 public class EventHandler {
 	GamePanel gp;
@@ -7,7 +8,7 @@ public class EventHandler {
 	
 	int previousEventX , previousEventY;
 	boolean canTouchEvent = true;
-	
+	int tempMap, tempCol ,tempRow;
 	
 	public EventHandler(GamePanel gp) {
 		this.gp = gp;
@@ -58,18 +59,37 @@ public class EventHandler {
 			//if(hit(27,16,"right")==true) {teleport(gp.dialogueState);}
 			else if(hit(23,12,"up",0)==true) {healingPool(gp.dialogueState);}
 			else if(hit(10,39,"any",0)==true) {teleporttoMap(1,12,13) ;}
-			else if(hit(10,39,"any",0)==true) {teleporttoMap(0,10,39) ;}
+			else if(hit(12,13,"any",1)==true) {teleporttoMap(0,10,39) ;}
+			else if(hit(12,9,"up",1)==true) {speak(gp.npc[1][0]) ;}
+
+
 
 		}
 	}
 	
-	public void teleporttoMap( int map , int col ,int row) {
-		gp.currentMap = map;
-		gp.player.worldX = gp.tileSize * col;
-		gp.player.worldY = gp.tileSize * row;
+	private void speak(Entity entity) {
+		if(gp.keyH.enterPressed ==true) {
+			gp.gameState = gp.dialogueState;
+			gp.player.attackCanceled = true;
+			entity.speak();
+		}
 		
-		previousEventX = gp.player.worldX;
-		previousEventY = gp.player.worldY;
+	}
+
+
+	public void teleporttoMap( int map , int col ,int row) {
+		gp.gameState = gp.transitionState;
+		tempMap =  map;
+		tempCol = col;
+		tempRow = row;
+		
+		
+//		gp.currentMap = map;
+//		gp.player.worldX = gp.tileSize * col;
+//		gp.player.worldY = gp.tileSize * row;
+//		
+//		previousEventX = gp.player.worldX;
+//		previousEventY = gp.player.worldY;
 		canTouchEvent = false;
 		gp.playSE(13);
 		

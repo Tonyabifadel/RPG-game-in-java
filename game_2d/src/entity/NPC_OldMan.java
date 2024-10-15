@@ -1,13 +1,7 @@
 package entity;
 
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
-
-import javax.imageio.ImageIO;
-
 import game_2d.GamePanel;
-import game_2d.UtilityTool;
 
 public class NPC_OldMan extends Entity{
 

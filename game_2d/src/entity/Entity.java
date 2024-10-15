@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -69,6 +70,11 @@ public class Entity {
 	public final int type_pickUp_Only = 7;
 
 	//Character Status
+	
+	public ArrayList<Entity> inventory = new ArrayList<>();
+	public final int inventoryMaxSize = 20;
+	
+	
 	public int maxLife;
 	public int life;
 	
@@ -93,6 +99,8 @@ public class Entity {
 	public String description = "" ;
 	
 	public int useCost;
+	public int price;
+	
 	
 	
 	
