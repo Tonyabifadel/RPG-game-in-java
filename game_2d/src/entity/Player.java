@@ -65,11 +65,11 @@ public class Player extends Entity{
 		
 		//position of player where he start
 		
-//		worldX=gp.tileSize*23;
-//		worldY=gp.tileSize*21;
+		worldX=gp.tileSize*23;
+		worldY=gp.tileSize*21;
 	
-		worldX=gp.tileSize*12;
-		worldY=gp.tileSize*10;
+//		worldX=gp.tileSize*12;
+//		worldY=gp.tileSize*10;
 		
 		speed=8;
 		direction ="down";

@@ -102,7 +102,6 @@ public class UI {
 		
 		//Dialogue State
 		if(gp.gameState == gp.dialogueState) {
-			drawPlayerLife();
 			drawDialogueSreen();
 		}
 		

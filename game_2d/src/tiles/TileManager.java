@@ -1,5 +1,6 @@
 package tiles;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,6 +16,7 @@ public class TileManager {
 	GamePanel gp;
 	public Tile[] tile;
 	public int mapTileNum[][][];
+	boolean drawPath = false;
 	
 public TileManager(GamePanel gp) {
 	this.gp = gp;
@@ -161,6 +163,19 @@ public void draw(Graphics g2){
 			worldRow++;
 		}
 		
+		if(drawPath == true) {
+			g2.setColor(new Color(255,0,0,70));
+			
+			for(int i = 0;i<gp.pFinder.pathList.size();i++) {
+				
+				int worldXX = gp.pFinder.pathList.get(i).col * gp.tileSize;
+				int worldYY = gp.pFinder.pathList.get(i).row * gp.tileSize;
+				int screenXX =  worldXX - gp.player.worldX + gp.player.screenX;;
+				int screenYY =  worldYY - gp.player.worldY + gp.player.screenY;
+				
+				g2.fillRect(screenXX, screenYY, gp.tileSize, gp.tileSize);
+			}
+		}
 		
 	}
 	

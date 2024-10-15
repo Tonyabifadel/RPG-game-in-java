@@ -46,6 +46,7 @@ public class Entity {
 	public int shotAvailableCounter = 0;
 	int dyingCounter = 0;
 	int hpBarCounter = 0;
+	public boolean onPath = false;
 	
 	public int value;
 	
@@ -141,6 +142,7 @@ public class Entity {
 		
 	}
 	
+	
 	public Color getParticleColor() {
 		Color color = new Color(0,0,0);
 		return color;
@@ -214,10 +216,9 @@ public class Entity {
 	}
 		
 	
-	
-	public void update() {
+	public void checkCollision() {
 		
-		setAction();
+		
 		collisionOn = false;
 		gp.cChecker.checktile(this);
 		gp.cChecker.checkObject(this, false);
@@ -233,6 +234,14 @@ public class Entity {
 			
 		}
 		
+	}
+	
+	public void update() {
+		
+		setAction();
+		checkCollision();
+		
+		//IF collision is false, player can move
 		if(collisionOn==false) {
 			switch(direction) {
 			case"up": worldY -= speed;   break;
@@ -401,5 +410,91 @@ public class Entity {
 	public void changeAlpha(Graphics2D g2 , float alphaValue ) {
 		g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , alphaValue));
 
+	}
+	
+	public void searchPath(int goalCol , int goalRow ) {
+		
+		int startCol = (worldX + solidArea.x) / gp.tileSize ;
+		int startRow = (worldY + solidArea.y) / gp.tileSize ;
+		
+		gp.pFinder.setNodes(startCol, startRow, goalCol, goalRow);
+		
+		if(gp.pFinder.search() == true) {
+			
+			//Next worldX & worldY
+			int nextX = gp.pFinder.pathList.get(0).col * gp.tileSize;
+			int nextY = gp.pFinder.pathList.get(0).row * gp.tileSize;
+			
+			//Entity solidArea Default
+			int enLeftX  =  worldX + solidArea.x;
+			int enRightX  = worldX + solidArea.x + solidArea.width;
+			int enTopY    = worldY + solidArea.y;
+			int enBottomY = worldY + solidArea.y + solidArea.height;
+			
+			if(enTopY > nextY && enLeftX >=nextX && enRightX < nextX + gp.tileSize) {
+				direction = "up";
+			}
+			else if(enTopY < nextY && enLeftX >=nextX && enRightX < nextX + gp.tileSize) {
+				direction = "down";
+			}
+			
+			else if(enTopY >=  nextY && enBottomY < nextY + gp.tileSize) {
+				//Entity can go left or right
+				if(enLeftX > nextX) {
+					direction = "left";
+				}
+				if(enLeftX < nextX) {
+					direction = "right";
+				}
+			}
+			
+			else if(enTopY >  nextY && enLeftX  > nextX){
+				//up or left
+				direction = "up";
+				checkCollision();
+				if(collisionOn == true) {
+					direction = "left";
+				}
+			}
+			
+			else if(enTopY > nextY && enLeftX < nextX) {
+				//up or right
+				direction = "up";
+				checkCollision();
+				if(collisionOn == true) {
+					direction = "right";
+				}
+				
+			}
+			
+			else if(enTopY < nextY && enLeftX > nextX) {
+				//down or left
+				direction = "down";
+				checkCollision();
+				if(collisionOn == true) {
+					direction = "left";
+				}
+				
+			}
+			else if(enTopY < nextY && enLeftX < nextX) {
+				//down or right
+				direction = "down";
+				checkCollision();
+				if(collisionOn == true) {
+					direction = "right";
+				}
+				
+			}
+			
+			//if reached the goal, stop the search
+			//stop this if we want someone to follow a player
+			
+			int nextCol= gp.pFinder.pathList.get(0).col ;
+			int nextRow  = gp.pFinder.pathList.get(0).row;
+			if(nextCol == goalCol && nextRow == goalRow ) {
+				onPath = false;
+			}
+				
+		}
 	}
 }

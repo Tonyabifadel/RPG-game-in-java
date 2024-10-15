@@ -56,8 +56,47 @@ public class MON_GreenSlime extends Entity{
 		
 		}
 	
+	public void update() {
+		super.update();
+		
+		int xDistance = Math.abs(worldX - gp.player.worldX);
+		int yDistance = Math.abs(worldY - gp.player.worldY);
+		int tileDistance = (xDistance + yDistance) / gp.tileSize;
+		
+		if(onPath == false && tileDistance < 5) {
+			int i = new Random().nextInt(100)+1;
+			if(i>50) {
+				onPath = true;
+			}
+		}
+		if(onPath == true && tileDistance > 20) {
+			onPath = false;
+		}
+
+		
+	}
+	
 	//SETTING SLIME BEHAVIOR
 	public void setAction() {
+		
+		if(onPath==true) {
+		
+			int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
+			int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
+		
+			//third param is if we want the character to follow the goal
+			searchPath(goalCol, goalRow);
+			
+			int i = new Random().nextInt(200)+1;
+			if(i>197 && projectile.alive == false && shotAvailableCounter ==30) {
+				projectile.set(worldX, worldY, direction, true, this);
+				gp.projectileList.add(projectile);
+				shotAvailableCounter = 0;
+			}
+		}
+		else {
+			
+			
 		actionLockCounter++;
 		
 		if(actionLockCounter ==120) {
@@ -81,22 +120,19 @@ public class MON_GreenSlime extends Entity{
 			
 	
 			actionLockCounter=0;
-			
-			
-			}
-		int i = new Random().nextInt(100)+1;
-		if(i>99 && projectile.alive == false && shotAvailableCounter ==30) {
-			projectile.set(worldX, worldY, direction, true, this);
-			gp.projectileList.add(projectile);
-			shotAvailableCounter = 0;
 		}
+	}
+	
+		
+		
 		
 	}
 	
 	public void damageReaction() {
-		actionLockCounter = 0;
-		direction = gp.player.direction;
 		
+		actionLockCounter = 0;
+		//direction = gp.player.direction;
+		onPath = true;
 		
 	}
 	

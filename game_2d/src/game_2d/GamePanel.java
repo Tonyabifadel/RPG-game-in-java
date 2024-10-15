@@ -14,6 +14,7 @@ import java.util.Comparator;
 
 import javax.swing.JPanel;
 
+import ai.PathFinder;
 import entity.Entity;
 import entity.Player;
 import tile_interactive.InteractiveTile;
@@ -38,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable{
 	//Max map is how many map we can create
 	public final int maxMap = 10;
 	//
-	public int currentMap = 1;
+	public int currentMap = 0;
 	
 	int screenWidth2 = screenWidth;
 	int screenHeight2 = screenHeight;
@@ -50,7 +51,7 @@ public class GamePanel extends JPanel implements Runnable{
 	int FPS = 60;
 	
 	//System
-	TileManager tileM = new TileManager(this);
+	public TileManager tileM = new TileManager(this);
 	public KeyHandler keyH = new KeyHandler(this);
 	Sound music = new Sound();
 	Sound se = new Sound();
@@ -60,6 +61,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public AssetSetter aSetter = new AssetSetter(this);
 	public UI ui = new UI(this);
 	public EventHandler eHandler = new EventHandler(this);
+	public PathFinder pFinder = new PathFinder(this);
 	
 	//Entity and Object
 	public Player player = new Player(this,keyH);
