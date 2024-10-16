@@ -14,13 +14,14 @@ public class OBJ_Fireball extends Projectile{
 		this.gp = gp;
 		name  = "Fireball";
 		//speed is how fast the fireball is
-		speed = 5;
+		speed = 8;
 		//maxlife is how many frames the fireball stay on screen
 		maxLife = 80;
 		life = maxLife;
 		attack = 2;
 		useCost = 1;
 		alive = false;
+		
 		getImage();
 		
 	}

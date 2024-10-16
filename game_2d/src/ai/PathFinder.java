@@ -121,7 +121,7 @@ public class PathFinder {
 		node.hCost = xDistance + yDistance;
 		
 		//F cost
-		node.fCost = node.gCost + node.hCost;
+		node.fCost =  node.gCost + node.hCost;
 	}
 	
 	public boolean search() {
