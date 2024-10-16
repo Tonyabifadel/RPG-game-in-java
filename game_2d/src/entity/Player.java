@@ -15,6 +15,7 @@ import javax.imageio.ImageIO;
 import game_2d.GamePanel;
 import game_2d.KeyHandler;
 import game_2d.UtilityTool;
+import object.OBJ_Axe;
 import object.OBJ_Fireball;
 import object.OBJ_Key;
 import object.OBJ_Rock;
@@ -42,12 +43,11 @@ public class Player extends Entity{
 		
 		solidArea.x=8;
 		solidArea.y=16;
-		
-		solidAreaDefaultX=solidArea.x;
-		solidAreaDefaultY=solidArea.y;
 		solidArea.width =32 ;
 		solidArea.height = 32;
 		
+		solidAreaDefaultX=solidArea.x;
+		solidAreaDefaultY=solidArea.y;
 //		attackArea.width = 36;
 //		attackArea.height = 36;
 		
@@ -113,6 +113,8 @@ public class Player extends Entity{
 		inventory.clear();
 		inventory.add(currentWeapon);
 		inventory.add(currentShield);
+		inventory.add(new OBJ_Axe(gp));
+		inventory.add(new OBJ_Key(gp));
 
 		
 	}
@@ -476,6 +478,12 @@ public class Player extends Entity{
 			gp.obj[gp.currentMap][i] = null;
 		}
 		
+		else if(gp.obj[gp.currentMap][i].type == type_Obstacle) {
+			if(gp.keyH.enterPressed == true) {
+				attackCanceled = true;
+				gp.obj[gp.currentMap][i].interact();
+			}
+		}
 		//inventory items
 		else {
 			String text ;
@@ -536,8 +544,11 @@ public class Player extends Entity{
 			}
 			
 			if(selectedItem.type == type_consumable) {
-			selectedItem.use(this);
-			inventory.remove(itemIndex);
+				
+			if(selectedItem.use(this) == true) {
+				inventory.remove(itemIndex);
+			}
+			
 			}
 			
 		}
