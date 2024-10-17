@@ -15,7 +15,7 @@ public class OBJ_Key  extends Entity{
 		down1 = setup("/objects/key",gp.tileSize ,gp.tileSize);
 		description = "[" + name + "]\nA Key to open door";
 		price = 35;
-		
+		stackable = true;
 	}
 	
 	public boolean use(Entity entity){

@@ -49,7 +49,8 @@ public class Entity {
 	public boolean onPath = false;
 	public boolean knockBack = false;
 	public int knockBackCounter = 0;
-	
+	public boolean stackable  =false;
+	public int  amount = 1;
 	
 	public int value;
 	public boolean attacking = false;

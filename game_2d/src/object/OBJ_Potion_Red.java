@@ -14,6 +14,7 @@ public class OBJ_Potion_Red extends Entity {
 		defenseValue = 2;
 		value = 5;
 		price = 20;
+		stackable = true;
 	
 		description = "[" + name + "]\nA Red Portion that\nheals your life by " + value;
 
