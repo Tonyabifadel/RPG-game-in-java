@@ -51,6 +51,7 @@ public class Entity {
 	public int knockBackCounter = 0;
 	public boolean stackable  =false;
 	public int  amount = 1;
+	public int lightRadius ;
 	
 	public int value;
 	public boolean attacking = false;
@@ -72,6 +73,8 @@ public class Entity {
 	public final int type_consumable = 6;
 	public final int type_pickUp_Only = 7;
 	public final int type_Obstacle = 8;
+	public final int type_light = 9;
+
 
 	
 	//Character Status
@@ -97,6 +100,8 @@ public class Entity {
 	public int coin;
 	public Entity currentWeapon;
 	public Entity currentShield;
+	public Entity currentLight;
+	
 	
 	public int attackValue;
 	public int defenseValue;

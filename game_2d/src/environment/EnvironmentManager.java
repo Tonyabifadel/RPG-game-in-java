@@ -17,9 +17,12 @@ public class EnvironmentManager {
 	
 	public void setup() {
 		
-		//change this number to make the size of the window,
-		//number must be smaller than screnWidth and screenHeight
-		lighting = new Lighting(gp,350);
+		
+		lighting = new Lighting(gp);
+	}
+	
+	public void update() {
+		lighting.update();
 	}
 	
 	public void draw(Graphics2D g2) {

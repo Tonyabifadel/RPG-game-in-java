@@ -1,6 +1,7 @@
 package game_2d;
 
 import object.OBJ_Key;
+import object.OBJ_Lantern;
 import object.OBJ_ManaCrystal;
 import object.OBJ_Potion_Red;
 import object.OBJ_Shield_Blue;
@@ -26,32 +27,9 @@ public class AssetSetter {
 		int mapNum = 0;
 		int i = 0;
 		
-		gp.obj[mapNum][i] = new OBJ_Bronze_Coin(gp);
-		gp.obj[mapNum][i].worldX = gp.tileSize*25;
-		gp.obj[mapNum][i].worldY = gp.tileSize*19;
-		i++;
+				
 		
-		gp.obj[mapNum][i] = new OBJ_ManaCrystal(gp);
-		gp.obj[mapNum][i].worldX = gp.tileSize*21;
-		gp.obj[mapNum][i].worldY = gp.tileSize*19;
-		i++;
-		
-		
-		gp.obj[mapNum][i] = new OBJ_Heart(gp);
-		gp.obj[mapNum][i].worldX = gp.tileSize*26;
-		gp.obj[mapNum][i].worldY = gp.tileSize*21;
-		i++;
-		
-		gp.obj[mapNum][i] = new OBJ_Axe(gp);
-		gp.obj[mapNum][i].worldX = gp.tileSize*33;
-		gp.obj[mapNum][i].worldY = gp.tileSize*21;
-		i++;
-		
-		gp.obj[mapNum][i] = new OBJ_Shield_Blue(gp);
-		gp.obj[mapNum][i].worldX = gp.tileSize*35;
-		gp.obj[mapNum][i].worldY = gp.tileSize*21;
-		i++;
-		
+
 		gp.obj[mapNum][i] = new OBJ_Potion_Red(gp);
 		gp.obj[mapNum][i].worldX = gp.tileSize*22;
 		gp.obj[mapNum][i].worldY = gp.tileSize*27;
@@ -78,7 +56,14 @@ public class AssetSetter {
 		gp.obj[mapNum][i].worldX = gp.tileSize*23;
 		gp.obj[mapNum][i].worldY = gp.tileSize*23;
 		i++;
+	
+		gp.obj[mapNum][i] = new OBJ_Lantern(gp);
+		gp.obj[mapNum][i].worldX = gp.tileSize*18;
+		gp.obj[mapNum][i].worldY = gp.tileSize*20;
+		i++;
+		
 	}
+	
 	
 	public void setNPC() {
 		int mapNum = 0 ;
