@@ -91,6 +91,8 @@ public class GamePanel extends JPanel implements Runnable{
 	public final int gameOverState= 6;
 	public final int transitionState = 7;
 	public final int tradeState = 8;
+	public final int sleepState = 9;
+
 	
 
 	public GamePanel() {
@@ -218,7 +220,7 @@ public class GamePanel extends JPanel implements Runnable{
 		  }
 		  
 		  if(timer>=1000000000) {
-			  //System.out.println("FPS is" + drawCount);
+			  //System.out.println("FPS is: " + drawCount);
 			  drawCount=0;
 			  timer=0;
 		  }
