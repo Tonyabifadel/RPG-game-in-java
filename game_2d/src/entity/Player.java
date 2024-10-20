@@ -58,8 +58,9 @@ public class Player extends Entity{
 		ammo = 10;
 		
 		setDefaultValue();
-		getPlayerImage();
-		getPlayerAttackImage();
+		getImage();
+		getAttackImage();
+		getGuardImage();
 		setItems();
 	}
 
@@ -109,6 +110,7 @@ public class Player extends Entity{
 		life = maxLife;
 		mana = maxMana;
 		invincible = false;
+		transparent = false;
 	}
 
 	public void setItems() {
@@ -135,7 +137,7 @@ public class Player extends Entity{
 		return attack = strength * currentWeapon.attackValue;
 	}
 
-	public void getPlayerImage() {
+	public void getImage() {
 		
 		up1 = setup("/player/boy_up_1" ,gp.tileSize ,gp.tileSize);
 		up2 = setup("/player/boy_up_2",gp.tileSize ,gp.tileSize);
@@ -148,7 +150,7 @@ public class Player extends Entity{
 
 	}
 	
-	public void getPlayerAttackImage() { 
+	public void getAttackImage() { 
 		if(currentWeapon.type == type_sword) {
 			
 		
@@ -177,6 +179,16 @@ public class Player extends Entity{
 		
 }
 	
+	public void getGuardImage() {
+		
+		guardUp = setup("/player/boy_guard_up" ,gp.tileSize ,gp.tileSize);
+		guardDown = setup("/player/boy_guard_down",gp.tileSize ,gp.tileSize);
+		guardLeft = setup("/player/boy_guard_left",gp.tileSize ,gp.tileSize);
+		guardRight = setup("/player/boy_guard_right",gp.tileSize ,gp.tileSize);
+
+	}
+	
+	
 	public void getSleepingImage(BufferedImage image) {
 		
 		up1 = image;
@@ -191,9 +203,53 @@ public class Player extends Entity{
 	}
 	
 	
-	public void update() { 
-		if(attacking == true) {
+	public void update() {
+		
+		if(knockBack==true) {
+			
+			//Check collision
+			collisionOn = false;
+			gp.cChecker.checktile(this);
+			gp.cChecker.checkObject(this, true);
+			gp.cChecker.checkEntity(this, gp.npc);
+			gp.cChecker.checkEntity(this, gp.monster);
+			gp.cChecker.checkEntity(this, gp.iTile);
+			
+			
+			if(collisionOn == true) {
+				
+				knockBackCounter = 0;
+				knockBack = false;
+				speed = defaultSpeed;
+				
+			}
+			else if(collisionOn == false){
+				
+				switch(KnockBackDirection) {
+				case"up": worldY -= speed;   break;
+				case"down":	worldY+=speed;   break;
+				case"left":	worldX -= speed; break;
+				case"right":worldX += speed; break;
+				}
+			}
+			knockBackCounter++;
+			
+			//if we want more knockBack increase the number 10
+			if(knockBackCounter == 10) {
+				knockBackCounter = 0;
+				knockBack = false;
+				speed = defaultSpeed;
+			}
+		}
+
+
+		else if(attacking == true) {
 			attacking();
+		}
+		else if(keyh.spacePressed == true) {
+			guarding = true;
+			guardCounter++;
+			
 		}
 		
 		else if(keyh.upPressed==true ||
@@ -259,6 +315,8 @@ public class Player extends Entity{
 			
 			attackCanceled = false;
 			gp.keyH.enterPressed=false;
+			guarding = false;
+			guardCounter = 0;
 			
 			spriteCounter++;
 			if(spriteCounter>12) {
@@ -279,6 +337,8 @@ public class Player extends Entity{
 				spriteNum = 1;
 				standingCounter=0;
 			}
+			guarding = false;
+			guardCounter = 0;
 		}
 		
 		
@@ -307,6 +367,7 @@ public class Player extends Entity{
 			invincibleCounter++;
 			if(invincibleCounter>60) {
 				invincible = false;
+				transparent = false;
 				invincibleCounter=0;
 			}
 			
@@ -316,14 +377,14 @@ public class Player extends Entity{
 			shotAvailableCounter++;
 		}
 		
-		if(life > maxLife) {life = maxLife;}
-		if(mana > maxMana) {mana = maxMana;}
-		if(life<=0) {
-			gp.gameState = gp.gameOverState;
-			gp.ui.commandNum = -1;
-			gp.stopMusic();
-			gp.playSE(12);
-		}
+//		if(life > maxLife) {life = maxLife;}
+//		if(mana > maxMana) {mana = maxMana;}
+//		if(life<=0) {
+//			gp.gameState = gp.gameOverState;
+//			gp.ui.commandNum = -1;
+//			gp.stopMusic();
+//			gp.playSE(12);
+//		}
 		
 		
 		
@@ -372,6 +433,9 @@ public class Player extends Entity{
 					setknockBack(gp.monster[gp.currentMap][i] , attacker,  knockBackPower);
 
 				}
+				if(gp.monster[gp.currentMap][i].offBalance == true) {
+					attack *= 5;
+				}
 				
 				int damage = attack - gp.monster[gp.currentMap][i].defense;
 				if(damage < 0) {
@@ -419,12 +483,13 @@ public class Player extends Entity{
 			if(invincible ==false && gp.monster[gp.currentMap][i].dying == false) {
 				gp.playSE(6);
 				int damage = gp.monster[gp.currentMap][i].defense - attack ;
-				if(damage < 0) {
-					damage = 0;
+				if(damage < 1) {
+					damage = 1;
 				}
 				
 			life -=1;
 			invincible = true;
+			transparent = true;
 			}
 		}
 		
@@ -501,7 +566,7 @@ public class Player extends Entity{
 			if(selectedItem.type == type_sword || selectedItem.type == type_axe) {
 				currentWeapon = selectedItem;
 				attack = getAttack();
-				getPlayerAttackImage();
+				getAttackImage();
 			}
 			
 			if(selectedItem.type == type_shield) {
@@ -599,6 +664,10 @@ public class Player extends Entity{
 					if(spriteNum ==1) {image = attackUp1;}
 					if(spriteNum ==2) {image = attackUp2;}
 				}
+				if(guarding == true) {
+					image = guardUp;
+					
+				}
 				
 				break;
 			case "down":
@@ -609,6 +678,10 @@ public class Player extends Entity{
 				if(attacking == true) {
 					if(spriteNum ==1) {image = attackDown1;}
 					if(spriteNum ==2) {image = attackDown2;}
+				}
+				if(guarding == true) {
+					image = guardDown;
+					
 				}
 				break;
 				
@@ -621,7 +694,13 @@ public class Player extends Entity{
 					tempScreenX = screenX - gp.tileSize;
 					if(spriteNum ==1) {image = attackLeft1;}
 					if(spriteNum ==2) {image = attackLeft2;}
-				}break;
+				}
+				if(guarding == true) {
+					image = guardLeft;
+					
+				}
+				break;
+				
 			case "right":
 				if(attacking ==false) {
 					if(spriteNum==1) {image = right1;}
@@ -631,11 +710,15 @@ public class Player extends Entity{
 					if(spriteNum ==1) {image = attackRight1;}
 					if(spriteNum ==2) {image = attackRight2;}
 				}
+				if(guarding == true) {
+					image = guardRight;
+					
+				}
 				break;
 				}
 			
 			
-			if(invincible==true) {
+			if(transparent==true) {
 				
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.4f));
 			}

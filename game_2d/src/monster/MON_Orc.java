@@ -26,7 +26,8 @@ public class MON_Orc extends Entity{
 		attack = 8;
 		defense = 2;
 		exp = 2;
-
+		knockBackPower = 5;
+		
 		montion1_duration = 40;
 		montion2_duration = 85;
 		

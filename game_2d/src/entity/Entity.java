@@ -24,7 +24,7 @@ public class Entity {
 	//buffered image is used to store the images/sprites
 	public BufferedImage up1, up2, down1,down2,left1,left2,right1,right2;
 	public BufferedImage attackUp1 , attackUp2 , attackDown1 , attackDown2,
-	attackLeft1 , attackLeft2 , attackRight1 , attackRight2;
+	attackLeft1 , attackLeft2 , attackRight1 , attackRight2 , guardUp , guardDown,guardLeft,guardRight;
 	public String direction = "down";
 	
 	
@@ -50,6 +50,8 @@ public class Entity {
 	public boolean onPath = false;
 	public boolean knockBack = false;
 	public int knockBackCounter = 0;
+	public int guardCounter = 0;
+	int offBalanceCounter = 0;
 	public boolean stackable  =false;
 	public int  amount = 1;
 	public int lightRadius ;
@@ -117,7 +119,9 @@ public class Entity {
 	public int price;
 	public int knockBackPower = 0;
 	public String KnockBackDirection;
-	
+	public boolean guarding = false;
+	public boolean transparent = false;
+	public boolean offBalance = false;
 	
 	
 	public Entity(GamePanel gp) {
@@ -564,25 +568,72 @@ public void checkStartChasing(Entity target , int distance , int rate) {
 			shotAvailableCounter++;
 		}
 		
+		if(offBalance == true) {
+			offBalanceCounter++;
+			if(offBalanceCounter > 60) {
+				offBalance = false;
+				offBalanceCounter = 0;
+			}
+		}
 	}	
 	
 	public void damagePlayer(int attack) {
 		if(gp.player.invincible==false) {
 			
-			gp.playSE(6);
-			
 			int damage = attack - gp.player.defense;
-			if(damage<0) {
-				damage = 0;
+			
+			//Get an opposite direction of this attacker
+			String canGuardDirection = getOppositeDirection(direction);
+			
+			if(gp.player.guarding == true && gp.player.direction.equals(canGuardDirection)) {
+				
+				//PARRY
+				if(gp.player.guardCounter < 10) {
+					damage = 0;
+					gp.playSE(16);
+					setknockBack(this , gp.player , knockBackPower);
+					offBalance = true;
+					spriteCounter -= 60;
+				}
+				
+				else {
+					//Normal guard
+				damage /=3;
+				gp.playSE(15);
+				}
+			}
+			else{
+				gp.playSE(6);
+
+				if(damage < 1) {
+					damage = 1;
+				}
+				
 			}
 			
-			gp.player.life -=damage;
-			gp.player.invincible=true;
+			if(damage !=0) {
+				gp.player.transparent = true;
+				setknockBack(gp.player , this , this.knockBackPower);
+			}
+			
+			gp.player.life -= damage;
+			gp.player.invincible = true;
 		}
 		
 		
 	}
 	
+	public String getOppositeDirection(String direction) {
+		
+		String oppositeDirection = "";
+		switch(direction) {
+		case "up":oppositeDirection = "down"; break;
+		case "down":oppositeDirection = "up"; break;
+		case "left":oppositeDirection = "right"; break;
+		case "right":oppositeDirection = "left"; break;
+		}
+		return oppositeDirection; 
+	}
 
 	public void draw(Graphics2D g2){
 		BufferedImage image = null;
