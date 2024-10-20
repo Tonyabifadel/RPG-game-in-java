@@ -46,7 +46,11 @@ public class Map extends TileManager{
 				}
 			}
 			
+			
+			g2.dispose();
 		}
+		
+		
 	}
 	
 	public void drawFullMapScreen(Graphics2D g2) {

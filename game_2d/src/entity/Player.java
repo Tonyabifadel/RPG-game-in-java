@@ -128,6 +128,9 @@ public class Player extends Entity{
 
 	private int getAttack() {
 		attackArea = currentWeapon.attackArea;
+		montion1_duration = currentWeapon.montion1_duration;
+		montion2_duration = currentWeapon.montion2_duration;
+
 		// TODO Auto-generated method stub
 		return attack = strength * currentWeapon.attackValue;
 	}
@@ -326,61 +329,8 @@ public class Player extends Entity{
 		
 	}
 	
-	private void attacking() {
-		spriteCounter++;
-				
-		if(spriteCounter <=5) {
-			spriteNum = 1;
-		}
 
-		//for more challenging gameplay, adjust spriteCounter to make it smaller
-		if(spriteCounter > 5 && spriteCounter <=25) {
-			spriteNum = 2;
-			
-			int currentWorldX = worldX;
-			int currentWorldY = worldY;
-			int solidAreaWidth = solidArea.width;
-			int solidAreaHeight = solidArea.height;
-			
-			//Adjust player's WorldX/Y for the AttackArea
-			switch(direction) {
-			case "up": worldY -= attackArea.height; break;
-			case "down": worldY += attackArea.height; break;
-			case "left": worldX -= attackArea.width; break;
-			case "right": worldX += attackArea.width; break;
-			
-			}
-			
-			solidArea.width = attackArea.width;
-			solidArea.height = attackArea.height;
-			
-			//check monster collision with the new worldx worldy and solidArea
-			int monsterIndex = gp.cChecker.checkEntity(this, gp.monster);
-			damageMonster(monsterIndex , attack , currentWeapon.knockBackPower);
-		
-			int iTileIndex = gp.cChecker.checkEntity(this, gp.iTile);
-			damageInteractiveTile(iTileIndex);
-			
-			//CHECK IF ATTACKING METHOD COLLISION WITH PROJECTILT
-			int projectileIndex = gp.cChecker.checkEntity(this, gp.projectileList);
-			damageProjectile(projectileIndex);
-			
-			worldX = currentWorldX;
-			worldY = currentWorldY;
-			solidArea.width= solidAreaWidth;
-			solidArea.height= solidAreaHeight;
-		}
-		if(spriteCounter > 25) {
-			spriteNum = 1;
-			spriteCounter=0;
-			attacking = false;
-		}
-		
-		
-		
-	}
-
-	private void damageProjectile(int i) {
+	public  void damageProjectile(int i) {
 		
 		if(i!=999) {
 			Entity projectile = gp.projectileList[gp.currentMap][i];
@@ -391,7 +341,7 @@ public class Player extends Entity{
 		
 	}
 
-	private void damageInteractiveTile(int iTileIndex) {
+	public void damageInteractiveTile(int iTileIndex) {
 		
 		if(iTileIndex!=999 && gp.iTile[gp.currentMap][iTileIndex].destructible == true
 			&& gp.iTile[gp.currentMap][iTileIndex].isCorrectItem(this) == true
@@ -412,14 +362,14 @@ public class Player extends Entity{
 	
 }
 
-	public void damageMonster(int i , int attack , int knockBackPower) {
+	public void damageMonster(int i ,Entity attacker, int attack , int knockBackPower) {
 		if(i!=999) {
 			
 			if(gp.monster[gp.currentMap][i].invincible ==false) {
 				gp.playSE(5);
 				
 				if(knockBackPower > 0) {
-					knockBack(gp.monster[gp.currentMap][i] , knockBackPower);
+					setknockBack(gp.monster[gp.currentMap][i] , attacker,  knockBackPower);
 
 				}
 				
@@ -539,11 +489,7 @@ public class Player extends Entity{
 		
 	}
 	
-	public void knockBack(Entity entity , int knockBackPower) {
-		entity.direction = direction;
-		entity.speed += knockBackPower;
-		entity.knockBack = true;
-	}
+	
 	
 	public void selectItem() {
 		

@@ -1,9 +1,8 @@
 package monster;
 
-import java.util.Random;
+import java.util.Random; 
 
 import entity.Entity;
-import entity.Projectile;
 import game_2d.GamePanel;
 import object.OBJ_Bronze_Coin;
 import object.OBJ_Heart;
@@ -56,86 +55,33 @@ public class MON_GreenSlime extends Entity{
 
 		
 		}
-	
-	public void update() {
-		super.update();
-		
-		int xDistance = Math.abs(worldX - gp.player.worldX);
-		int yDistance = Math.abs(worldY - gp.player.worldY);
-		int tileDistance = (xDistance + yDistance) / gp.tileSize;
-		
-		if(onPath == false && tileDistance < 5) {
-			int i = new Random().nextInt(100)+1;
-			if(i>50) {
-				onPath = true;
-			}
-		}
-		if(onPath == true && tileDistance > 20) {
-			onPath = false;
-		}
 
-		
-	}
+	
 	
 	//SETTING SLIME BEHAVIOR
 	public void setAction() {
 		
-		if(onPath==true) {
 		
-			int goalCol = (gp.player.worldX + gp.player.solidArea.x)/gp.tileSize;
-			int goalRow = (gp.player.worldY + gp.player.solidArea.y)/gp.tileSize;
-		
+		if(onPath == true) {
+			
+			checkStopChasing(gp.player , 15 , 100);
+			
 			//third param is if we want the character to follow the goal
-			searchPath(goalCol, goalRow);
+			searchPath(getGoalCol(gp.player)  , getGoalRow(gp.player));
 			
-			int i = new Random().nextInt(200)+1;
+			//Check if it shoots a projectile
+			checkShoot(200 , 30);
 			
-			if(i>197 && projectile.alive == false && shotAvailableCounter ==30) {
-				projectile.set(worldX, worldY, direction, true, this);
-
-				//Check vacancy
-				for(int j =0 ; j< gp.projectileList[1].length;j++){
-					if(gp.projectileList[gp.currentMap][j]==null){
-						gp.projectileList[gp.currentMap][j] = projectile;
-						break;
-					}
-				}
-				
-				shotAvailableCounter = 0;
-			}
+		
 		}
 		else {
+			//Check if it starts chasing
+			checkStartChasing(gp.player , 5 , 100);
 			
-			
-		actionLockCounter++;
-		
-		if(actionLockCounter ==120) {
-			Random random = new Random();
-			int i = random.nextInt(100)+1;
-			
-			if(i<=25) {
-				direction="up";
-			}
-			if(i>25 && i<=50) {
-				direction="down";
-			}
-			
-			if(i>50 && i<=75) {
-				direction="left";
-			}
-			
-			if(i>75 && i<=100 ) {
-				direction="right";
-			}
-			
-	
-			actionLockCounter=0;
+			getRandomDirection();
 		}
-	}
+		
 	
-		
-		
-		
 	}
 	
 	public void damageReaction() {
