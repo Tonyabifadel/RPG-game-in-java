@@ -15,6 +15,7 @@ import java.util.Comparator;
 import javax.swing.JPanel;
 
 import ai.PathFinder;
+import data.SaveLoad;
 import entity.Entity;
 import entity.Player;
 import environment.EnvironmentManager;
@@ -66,6 +67,7 @@ public class GamePanel extends JPanel implements Runnable{
 	public PathFinder pFinder = new PathFinder(this);
 	EnvironmentManager eManager  = new EnvironmentManager(this);
 	Map map  = new Map(this);
+	SaveLoad saveLoad = new SaveLoad(this);
 	
 	//Entity and Object
 	public Player player = new Player(this,keyH);
@@ -143,23 +145,21 @@ public class GamePanel extends JPanel implements Runnable{
 		gameThread.start();
 	}
 	
-	public void retry() {
+	public void resetGame(boolean restart) {
+		
 		player.setDefaultPosition();
-		player.restoreLifeAndMana();
+		player.restoreStatus();
 		aSetter.setNPC();
 		aSetter.setMonster();
+		
+		if(restart == true) {
+			player.setDefaultValue();
+			aSetter.setObject();
+			aSetter.setInteractiveTile();
+			eManager.lighting.resetDay();
+		}
 	}
-	
-	public void restart() {
-		player.setDefaultValue();
-		player.setItems();
-		aSetter.setObject();
-		aSetter.setNPC();
-		aSetter.setMonster();
-		aSetter.setInteractiveTile();
-	}
-	
-	
+
 	
 	//here we will create the game loop
 	//2 things to do:

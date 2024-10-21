@@ -122,7 +122,8 @@ public class Entity {
 	public boolean guarding = false;
 	public boolean transparent = false;
 	public boolean offBalance = false;
-	
+	public Entity loot;
+	public boolean opened = false;
 	
 	public Entity(GamePanel gp) {
 		this.gp = gp;
@@ -163,6 +164,10 @@ public class Entity {
 	}
 	
 	public void interact() {
+		
+	}
+	
+	public void setLoot(Entity loot) {
 		
 	}
 	
@@ -856,11 +861,12 @@ public void checkStartChasing(Entity target , int distance , int rate) {
 		int nextWorldY = user.getTopY();
 		
 		switch(user.direction) {
-		case"up": nextWorldY = user.getTopY()-1;  break;
-		case"down": nextWorldY = user.getBottomY()+1;  break;
-		case"left": nextWorldX = user.getLeftX()-1;  break;
-		case"right": nextWorldX = user.getRightX()+1;  break;
+		case"up": nextWorldY = user.getTopY()-gp.player.speed;  break;
+		case"down": nextWorldY = user.getBottomY()+gp.player.speed;  break;
+		case"left": nextWorldX = user.getLeftX()-gp.player.speed;  break;
+		case"right": nextWorldX = user.getRightX()+gp.player.speed;  break;
 		}
+		
 		int col = nextWorldX / gp.tileSize;
 		int row = nextWorldY/gp.tileSize;
 		

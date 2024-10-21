@@ -58,10 +58,7 @@ public class Player extends Entity{
 		ammo = 10;
 		
 		setDefaultValue();
-		getImage();
-		getAttackImage();
-		getGuardImage();
-		setItems();
+		
 	}
 
 	public void setDefaultValue() {	 
@@ -92,11 +89,18 @@ public class Player extends Entity{
 		speed=defaultSpeed;
 		currentWeapon = new OBJ_Sword_Normal(gp);
 		currentShield = new OBJ_Shield_Wood(gp);
+		currentLight = null;
 		projectile = new OBJ_Fireball(gp);
 //		projectile = new OBJ_Rock(gp);
 
 		attack = getAttack();
 		defense = getDefense();
+		
+		
+		getImage();
+		getAttackImage();
+		getGuardImage();
+		setItems();
 		
 		
 	}	
@@ -106,11 +110,16 @@ public class Player extends Entity{
 		direction ="down";
 	}
 	
-	public void restoreLifeAndMana() {
+	public void restoreStatus() {
 		life = maxLife;
 		mana = maxMana;
 		invincible = false;
 		transparent = false;
+		attacking = false;
+		guarding = false;
+		knockBack = false;
+		lightUpdated = true;
+	
 	}
 
 	public void setItems() {
@@ -123,12 +132,12 @@ public class Player extends Entity{
 
 		
 	}
-	private int getDefense() {
+	public int getDefense() {
 		// TODO Auto-generated method stub
 		return  defense = dexterity * currentShield.defenseValue;
 	}
 
-	private int getAttack() {
+	public int getAttack() {
 		attackArea = currentWeapon.attackArea;
 		montion1_duration = currentWeapon.montion1_duration;
 		montion2_duration = currentWeapon.montion2_duration;
@@ -136,7 +145,28 @@ public class Player extends Entity{
 		// TODO Auto-generated method stub
 		return attack = strength * currentWeapon.attackValue;
 	}
+	
+	public int getCurrentWeaponSlot() {
+		int currentWeaponSlot = 0;
+		
+		for(int i = 0;i<inventory.size() ;i++) {
+			if(inventory.get(i)==currentWeapon) {
+				currentWeaponSlot = i;
+			}
+		}
+		return currentWeaponSlot;
+	}
 
+	public int getCurrentShieldSlot() {
+		int currentShieldSlot = 0;
+		
+		for(int i = 0;i<inventory.size() ;i++) {
+			if(inventory.get(i)==currentShield) {
+				currentShieldSlot = i;
+			}
+		}
+		return currentShieldSlot;
+	}
 	public void getImage() {
 		
 		up1 = setup("/player/boy_up_1" ,gp.tileSize ,gp.tileSize);
@@ -377,14 +407,14 @@ public class Player extends Entity{
 			shotAvailableCounter++;
 		}
 		
-//		if(life > maxLife) {life = maxLife;}
-//		if(mana > maxMana) {mana = maxMana;}
-//		if(life<=0) {
-//			gp.gameState = gp.gameOverState;
-//			gp.ui.commandNum = -1;
-//			gp.stopMusic();
-//			gp.playSE(12);
-//		}
+		if(life > maxLife) {life = maxLife;}
+		if(mana > maxMana) {mana = maxMana;}
+		if(life<=0) {
+			gp.gameState = gp.gameOverState;
+			gp.ui.commandNum = -1;
+			gp.stopMusic();
+			gp.playSE(12);
+		}
 		
 		
 		

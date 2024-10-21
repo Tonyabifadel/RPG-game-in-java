@@ -138,14 +138,15 @@ public class KeyHandler implements KeyListener {
 		
 		gp.playSE(9);
 		if(code ==KeyEvent.VK_ENTER){
+			
 			if(gp.ui.commandNum==0) {
 				gp.gameState = gp.playState;
-				gp.retry();
+				gp.resetGame(false);
 				gp.playerMusic(0);
 			}
 			else if(gp.ui.commandNum ==1) {
 				gp.gameState = gp.titleState;
-				gp.restart();
+				gp.resetGame(true);
 			}
 			
 		}
@@ -245,7 +246,9 @@ public class KeyHandler implements KeyListener {
 				}
 				
 				if(gp.ui.commandNum==1) {
-					//load game
+					gp.saveLoad.load();
+					gp.gameState = gp.playState;
+					gp.playerMusic(0);
 				}
 				
 				
@@ -285,13 +288,16 @@ public class KeyHandler implements KeyListener {
 				if(gp.ui.commandNum==1) {
 					gp.gameState = gp.playState;
 					System.out.println("Do some thief specific stuff");
-					
+					gp.playerMusic(0);
+
 				}
 				
 
 				if(gp.ui.commandNum==2) {
 					gp.gameState = gp.playState;
-					System.out.println("Do some Sorcerer specific stuff");					}
+					System.out.println("Do some Sorcerer specific stuff");	
+					gp.playerMusic(0);
+}
 				
 				if(gp.ui.commandNum==3) {
 					gp.ui.titleScreenState=0;

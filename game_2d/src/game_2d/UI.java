@@ -648,6 +648,7 @@ public class UI {
 				subState = 0;
 				gp.gameState = gp.titleState;
 				gp.ui.titleScreenState = 0;
+				gp.resetGame(true);
 			}
 			
 		}
@@ -853,7 +854,9 @@ public class UI {
 		textY += lineHeight;
 		drawCharacterOnWindom("Life", textX, textY );
 		textY += lineHeight;
-		drawCharacterOnWindom("Strenght", textX, textY );
+		drawCharacterOnWindom("Mana", textX, textY );
+		textY += lineHeight;
+		drawCharacterOnWindom("Strength", textX, textY );
 		textY += lineHeight;
 		drawCharacterOnWindom("Dexterity", textX, textY );
 		textY += lineHeight;
