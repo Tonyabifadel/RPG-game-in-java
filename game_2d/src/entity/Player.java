@@ -101,6 +101,7 @@ public class Player extends Entity{
 		getAttackImage();
 		getGuardImage();
 		setItems();
+		setDialogue();
 		
 		
 	}	
@@ -111,8 +112,10 @@ public class Player extends Entity{
 	}
 	
 	public void restoreStatus() {
+		
 		life = maxLife;
 		mana = maxMana;
+		speed = defaultSpeed;
 		invincible = false;
 		transparent = false;
 		attacking = false;
@@ -216,6 +219,11 @@ public class Player extends Entity{
 		guardLeft = setup("/player/boy_guard_left",gp.tileSize ,gp.tileSize);
 		guardRight = setup("/player/boy_guard_right",gp.tileSize ,gp.tileSize);
 
+	}
+	
+	public void setDialogue() {
+		dialogues[0][0] = "You are level " + level + " now!\n";
+	
 	}
 	
 	
@@ -503,7 +511,7 @@ public class Player extends Entity{
 			
 			gp.playSE(8);
 			gp.gameState = gp.dialogueState;
-			gp.ui.currentDialogue = "You are level " + level + " now!\n";
+			startDialogue(this , 0);
 		}
 		
 	}
@@ -571,10 +579,10 @@ public class Player extends Entity{
 	}
 	
 	public void interactNPC(int i) {
+		if(i != 999) {
+
 		if(gp.keyH.enterPressed == true) {
-			if(i != 999) {
 				attackCanceled = true;
-				gp.gameState = gp.dialogueState;
 				gp.npc[gp.currentMap][i].speak();
 					
 			}

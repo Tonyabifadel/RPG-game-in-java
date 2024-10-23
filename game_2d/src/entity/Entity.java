@@ -60,8 +60,9 @@ public class Entity {
 	public boolean attacking = false;
 	
 	
-	String dialogues[] = new String[20];
-	int dialogueIndex = 0;
+	public String dialogues[][] = new String[20][20];
+	public int dialogueSet = 0;
+	public int dialogueIndex = 0;
 	public Entity attacker;
 	
 	public BufferedImage image , image2, image3;
@@ -224,6 +225,18 @@ public class Entity {
 	
 	}
 	
+	public void resetCounter() {
+		spriteCounter = 0 ;
+		actionLockCounter = 0;
+		invincibleCounter = 0;
+		shotAvailableCounter = 0;
+		dyingCounter = 0;
+		hpBarCounter = 0;
+		knockBackCounter = 0;
+		guardCounter = 0;
+		offBalanceCounter = 0;
+	}
+	
 	
 	public Color getParticleColor() {
 		Color color = new Color(0,0,0);
@@ -277,28 +290,25 @@ public class Entity {
 	}
 	
 	public void speak() {
-		if(dialogues[dialogueIndex]==null) {
-			dialogueIndex = 0;
+		
+		
+	
+	}
+	public void facePlayer() {
+		
+		switch(gp.player.direction) {
+		case"up":direction="down";break;
+		case"down":direction="up";break;
+		case"left":direction="right";break;
+		case"right":direction="left";break;
 		}
-	gp.ui.currentDialogue = dialogues[dialogueIndex];
-	dialogueIndex++;
-		
-	switch(gp.player.direction) {
-	case"up":		
-		direction="down";
-		break;
-	case"down":
-		direction="up";
-		break;
-	case"left":
-		direction="right";
-		break;
-	case"right":
-		direction="left";
-		break;
 	}
+	
+	public void startDialogue(Entity entity , int setNum) {
+	gp.gameState = gp.dialogueState;
+	gp.ui.npc = entity;
+	dialogueSet = setNum;
 	}
-		
 	
 
 	public void checkStopChasing(Entity target , int distance , int rate) {

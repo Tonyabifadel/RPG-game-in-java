@@ -21,6 +21,8 @@ public class NPC_OldMan extends Entity{
 			solidAreaDefaultY=solidArea.y;
 			solidArea.width =30 ;
 			solidArea.height = 30;
+			
+			dialogueSet =-1;
 		
 			getImage();
 			setDialogue();
@@ -42,9 +44,16 @@ public class NPC_OldMan extends Entity{
 
 	
 	public void setDialogue() {
-		dialogues[0] = "Hello, lad. My name is joe";
-		dialogues[1] = "So you've come to this island to \n find the treasure?";
+		//First dimension == dialogue set
 		
+		dialogues[0][0] = "Hello, lad. My name is joe";
+		dialogues[0][1] = "So you've come to this island to \n find the treasure?";
+		
+		
+		dialogues[1][0] = "If tired, rest at water";
+		dialogues[1][1] = "Monster  may reappear\n be careful";
+		
+		dialogues[2][0] = "I wonder how to open the door";
 	}
 
 	public void setAction() {
@@ -94,8 +103,24 @@ public class NPC_OldMan extends Entity{
 	
 	
 	public void speak() {
-		super.speak();
-		onPath = true;
+		
+		facePlayer();
+		startDialogue(this, dialogueSet);
+		
+		dialogueSet++;
+		
+		if(dialogues[dialogueSet][0] == null) {
+			//dialogueSet = 0; ofr repeating the dialogue
+		
+			//if we want to repeat the last dialogue
+			dialogueSet--;
+		}
+		
+		//if(gp.player.life < gp.player.life /3) {
+			//dialogueSet=1;
+		//}
+		
+		//onPath = true;
 	}
 	
 }
