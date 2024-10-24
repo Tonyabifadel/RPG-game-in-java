@@ -122,6 +122,7 @@ public class KeyHandler implements KeyListener {
 	}
 
 	private void gameOverState(int code) {
+		
 		if(code == KeyEvent.VK_W) {
 			gp.ui.commandNum--;
 			if(gp.ui.commandNum<0) {
@@ -136,7 +137,7 @@ public class KeyHandler implements KeyListener {
 			}
 		}
 		
-		gp.playSE(9);
+
 		if(code ==KeyEvent.VK_ENTER){
 			
 			if(gp.ui.commandNum==0) {

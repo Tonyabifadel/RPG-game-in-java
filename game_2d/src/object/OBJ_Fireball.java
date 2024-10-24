@@ -9,10 +9,11 @@ import game_2d.GamePanel;
 public class OBJ_Fireball extends Projectile{
 
 	GamePanel gp;
+	public static final String objName = "Fireball";
 	public OBJ_Fireball(GamePanel gp) {
 		super(gp);
 		this.gp = gp;
-		name  = "Fireball";
+		name  = objName;
 		//speed is how fast the fireball is
 		speed = 8;
 		//maxlife is how many frames the fireball stay on screen

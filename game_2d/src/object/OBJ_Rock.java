@@ -9,10 +9,13 @@ import game_2d.GamePanel;
 public class OBJ_Rock extends Projectile{
 
 	GamePanel gp;
+	public static final String objName = "Rock";
+	
+	
 	public OBJ_Rock(GamePanel gp) {
 		super(gp);
 		this.gp = gp;
-		name  = "Rock";
+		name  = objName;
 		//speed is how fast the rock is
 		speed = 8;
 		//maxlife is how many frames the rock stay on screen

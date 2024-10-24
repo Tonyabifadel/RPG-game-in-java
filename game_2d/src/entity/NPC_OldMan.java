@@ -110,7 +110,7 @@ public class NPC_OldMan extends Entity{
 		dialogueSet++;
 		
 		if(dialogues[dialogueSet][0] == null) {
-			//dialogueSet = 0; ofr repeating the dialogue
+			//dialogueSet = 0; for repeating the dialogue
 		
 			//if we want to repeat the last dialogue
 			dialogueSet--;

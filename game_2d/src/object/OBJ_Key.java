@@ -4,14 +4,17 @@ import entity.Entity;
 import game_2d.GamePanel;
 
 public class OBJ_Key  extends Entity{
+
 	GamePanel gp;
+	public static final String objName = "Key";
+
 	public OBJ_Key(GamePanel gp) {
 		
 		super(gp);
 		this.gp = gp;
 		type = type_consumable;
 		
-		name = "Key";
+		name = objName;
 		down1 = setup("/objects/key",gp.tileSize ,gp.tileSize);
 		description = "[" + name + "]\nA Key to open door";
 		price = 35;

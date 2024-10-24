@@ -5,10 +5,11 @@ import game_2d.GamePanel;
 
 public class OBJ_Axe extends Entity {
 
+	public static final String objName = "Woodcutter Axe";
 	public OBJ_Axe(GamePanel gp) {
 		super(gp);
 		type = type_axe;
-		name = "Woodcutter Axe";
+		name = objName;
 		down1 = setup("/objects/axe" , gp.tileSize , gp.tileSize);
 		attackValue = 2;
 		description = "[" + name + "]\nRusty but still sharp\nenough to cut trees";
