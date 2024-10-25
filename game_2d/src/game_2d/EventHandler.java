@@ -71,9 +71,13 @@ public class EventHandler {
 			if(hit(27,16,"right",0)==true) {damagePit(gp.dialogueState);}
 			//if(hit(27,16,"right")==true) {teleport(gp.dialogueState);}
 			else if(hit(23,12,"up",0)==true) {healingPool(gp.dialogueState);}
-			else if(hit(10,39,"any",0)==true) {teleporttoMap(1,12,13) ;}
-			else if(hit(12,13,"any",1)==true) {teleporttoMap(0,10,39) ;}
+			else if(hit(10,39,"any",0)==true) {teleporttoMap(1,12,13 , gp.indoor) ;}
+			else if(hit(12,13,"any",1)==true) {teleporttoMap(0,10,39,gp.outside) ;}
 			else if(hit(12,9,"up",1)==true) {speak(gp.npc[1][0]) ;}
+			else if(hit(12,9,"any",0)==true) {teleporttoMap(2,9,41,gp.dungeon) ;}
+			else if(hit(9,41,"any",2)==true) {teleporttoMap(0,12,9,gp.outside) ;}
+			else if(hit(8,7,"any",2)==true) {teleporttoMap(3,26,41,gp.dungeon) ;}
+			else if(hit(26,41,"any",3)==true) {teleporttoMap(2,8,7,gp.dungeon) ;}
 
 
 
@@ -90,8 +94,10 @@ public class EventHandler {
 	}
 
 
-	public void teleporttoMap( int map , int col ,int row) {
+	public void teleporttoMap( int map , int col ,int row , int area) {
+		
 		gp.gameState = gp.transitionState;
+		gp.nextArea = area;
 		tempMap =  map;
 		tempCol = col;
 		tempRow = row;

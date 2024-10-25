@@ -13,6 +13,7 @@ import entity.NPC_Merchant;
 import entity.NPC_OldMan;
 import monster.MON_GreenSlime;
 import monster.MON_Orc;
+import monster.MON_RedSlime;
 import object.OBJ_Axe;
 import object.OBJ_Boots;
 import object.OBJ_Bronze_Coin;
@@ -126,6 +127,11 @@ public class AssetSetter {
 		gp.monster[mapNum][i] = new MON_Orc(gp);
 		gp.monster[mapNum][i].worldX = gp.tileSize * 12;
 		gp.monster[mapNum][i].worldY = gp.tileSize * 33;
+		i++;
+		
+		gp.monster[mapNum][i] = new MON_RedSlime(gp);
+		gp.monster[mapNum][i].worldX = gp.tileSize * 35;
+		gp.monster[mapNum][i].worldY = gp.tileSize * 39;
 		i++;
 	
 	}

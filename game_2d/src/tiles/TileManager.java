@@ -26,11 +26,14 @@ public TileManager(GamePanel gp) {
 	getTileImage();
 	loadMap("/maps/worldV3.txt" , 0);
 	loadMap("/maps/interior01.txt" , 1);
+	loadMap("/maps/dungeon01.txt" , 2);
+	loadMap("/maps/dungeon02.txt" , 3);
+
 	}
 
 public void getTileImage() {
 		
-	setup(0,"grass00",false);
+	setup(0,"000",false);
 	setup(1,"grass00",false);
 	setup(2,"grass00",false);
 	setup(3,"grass00",false);
@@ -79,6 +82,12 @@ public void getTileImage() {
 	setup(42,"hut",false);
 	setup(43,"floor01",false);
 	setup(44,"table01",true);
+	setup(45,"036",false);
+	setup(46,"037",false);
+	setup(47,"032",true);
+	setup(48,"017",false);
+
+
 
 	
 		

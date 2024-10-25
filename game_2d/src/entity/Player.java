@@ -85,7 +85,7 @@ public class Player extends Entity{
 		exp = 0;
 		nextLevelExp = 5;
 		coin = 200 ;
-		defaultSpeed = 7;
+		defaultSpeed = 5;
 		speed=defaultSpeed;
 		currentWeapon = new OBJ_Sword_Normal(gp);
 		currentShield = new OBJ_Shield_Wood(gp);
@@ -493,6 +493,8 @@ public class Player extends Entity{
 					exp += gp.monster[gp.currentMap][i].exp;
 					checkLevelUp();
 				}
+				
+				
 			}
 		}
 		

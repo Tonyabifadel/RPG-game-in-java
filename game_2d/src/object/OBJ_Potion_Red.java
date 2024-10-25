@@ -25,8 +25,8 @@ public class OBJ_Potion_Red extends Entity {
 		
 	}
 	private void setDialogue() {
-		dialogues[0][0] = "\"You drink the \" + name+ \"!\\n\"\r\n"
-				+ "				+ \"Your life has been recovered by \" + value";
+		dialogues[0][0] = "You drink the " + name
+				+ "\nYour life has been recovered by " + value;
 		
 	}
 	public boolean use(Entity entity) {
