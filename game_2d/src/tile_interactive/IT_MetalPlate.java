@@ -1,18 +1,21 @@
 package tile_interactive;
 
-import entity.Entity;
 import game_2d.GamePanel;
 
-public class IT_Trunk extends InteractiveTile{
+public class IT_MetalPlate extends InteractiveTile{
 
 	GamePanel gp;
-	public IT_Trunk(GamePanel gp , int col , int row) {
+	public static final String itName = "Metal Plate";
+	
+	public IT_MetalPlate(GamePanel gp , int col , int row) {
 		super(gp , col , row);
 		
 		this.worldX = gp.tileSize * col;
 		this.worldY = gp.tileSize * row;
 		this.gp = gp;
-		down1 = setup("/tiles_interactive/trunk",gp.tileSize,gp.tileSize);
+		name = itName;
+		
+		down1 = setup("/tiles_interactive/metalplate",gp.tileSize,gp.tileSize);
 		
 		solidArea.x = 0;
 		solidArea.y = 0;

@@ -64,6 +64,7 @@ public class Entity {
 	public int dialogueSet = 0;
 	public int dialogueIndex = 0;
 	public Entity attacker;
+	public Entity linkedEntity;
 	
 	public BufferedImage image , image2, image3;
 	public boolean collision = false;
@@ -79,6 +80,7 @@ public class Entity {
 	public final int type_pickUp_Only = 7;
 	public final int type_Obstacle = 8;
 	public final int type_light = 9;
+	public final int type_pickaxe = 10;
 
 
 	
@@ -152,6 +154,9 @@ public class Entity {
 		
 	}
 	
+	public void move(String directoion) {
+		
+	}
 	public void damageReaction() {
 		
 	}
@@ -322,7 +327,7 @@ public class Entity {
 		}
 	}
 	
-public void checkStartChasing(Entity target , int distance , int rate) {
+	public void checkStartChasing(Entity target , int distance , int rate) {
 		
 		if(getTileDistance(target) < distance) {
 			int i = new Random().nextInt(rate);

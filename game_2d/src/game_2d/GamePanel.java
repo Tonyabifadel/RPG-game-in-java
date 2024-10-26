@@ -462,7 +462,7 @@ public class GamePanel extends JPanel implements Runnable{
 				playerMusic(18);
 			}
 			
-			
+			aSetter.setNPC();
 		}
 		
 		currentArea = nextArea;
