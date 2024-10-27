@@ -9,28 +9,28 @@ import object.OBJ_Heart;
 import object.OBJ_ManaCrystal;
 import object.OBJ_Rock;
 
-public class MON_GreenSlime extends Entity{
+public class MON_Bat extends Entity{
 
 	GamePanel gp;
-	public MON_GreenSlime(GamePanel gp) {
+	public MON_Bat(GamePanel gp) {
 		super(gp);
 		this.gp = gp;
 		
-		name="Green slime";
-		defaultSpeed = 1;
+		name="Bat";
+		defaultSpeed = 4;
 		speed = defaultSpeed;
-		maxLife = 4;
+		maxLife = 7;
 		life = maxLife;
 		type = type_monster;
-		attack = 5;
+		attack = 7;
 		defense = 0;
-		exp = 2;
-		projectile  = new OBJ_Rock(gp); 
+		exp = 7;
+		
 		//setting solid area
 		solidArea.x = 3;
-		solidArea.y = 10;
+		solidArea.y = 15;
 		solidArea.width = 42;
-		solidArea.height = 30;
+		solidArea.height = 21;
 		solidAreaDefaultX = solidArea.x;
 		solidAreaDefaultY = solidArea.y;
 		
@@ -44,14 +44,14 @@ public class MON_GreenSlime extends Entity{
 	
 	//LOAD AND SCALE IMAGE
 	public void getImage() {
-		up1 = setup("/monsters/greenslime_down_1",gp.tileSize ,gp.tileSize);
-		up2 = setup("/monsters/greenslime_down_2",gp.tileSize ,gp.tileSize);
-		down1 = setup("/monsters/greenslime_down_1",gp.tileSize ,gp.tileSize);
-		down2 = setup("/monsters/greenslime_down_2",gp.tileSize ,gp.tileSize);
-		left1 = setup("/monsters/greenslime_down_1",gp.tileSize ,gp.tileSize);
-		left2 = setup("/monsters/greenslime_down_2",gp.tileSize ,gp.tileSize);
-		right1 = setup("/monsters/greenslime_down_1",gp.tileSize ,gp.tileSize);
-		right2 = setup("/monsters/greenslime_down_2",gp.tileSize ,gp.tileSize);
+		up1 = setup("/monsters/bat_down_1",gp.tileSize ,gp.tileSize);
+		up2 = setup("/monsters/bat_down_2",gp.tileSize ,gp.tileSize);
+		down1 = setup("/monsters/bat_down_1",gp.tileSize ,gp.tileSize);
+		down2 = setup("/monsters/bat_down_2",gp.tileSize ,gp.tileSize);
+		left1 = setup("/monsters/bat_down_1",gp.tileSize ,gp.tileSize);
+		left2 = setup("/monsters/bat_down_2",gp.tileSize ,gp.tileSize);
+		right1 = setup("/monsters/bat_down_1",gp.tileSize ,gp.tileSize);
+		right2 = setup("/monsters/bat_down_2",gp.tileSize ,gp.tileSize);
 
 		
 		}
@@ -64,21 +64,22 @@ public class MON_GreenSlime extends Entity{
 		
 		if(onPath == true) {
 			
-			checkStopChasing(gp.player , 15 , 100);
-			
-			//third param is if we want the character to follow the goal
-			searchPath(getGoalCol(gp.player)  , getGoalRow(gp.player));
-			
+//			checkStopChasing(gp.player , 15 , 100);
+//			
+//			//third param is if we want the character to follow the goal
+//			searchPath(getGoalCol(gp.player)  , getGoalRow(gp.player));
+//			
 			//Check if it shoots a projectile
 			//checkShoot(200 , 30);
 			
 		
 		}
 		else {
-			//Check if it starts chasing
-			checkStartChasing(gp.player , 5 , 100);
+//			//Check if it starts chasing
+//			checkStartChasing(gp.player , 5 , 100);
 			
-			getRandomDirection(120);
+			
+			getRandomDirection(10);
 		}
 		
 	

@@ -56,8 +56,8 @@ public class Player extends Entity{
 		
 		//position of player where he start
 		
-		worldX=gp.tileSize*12;
-		worldY=gp.tileSize*10;
+		worldX=gp.tileSize*8;
+		worldY=gp.tileSize*8;
 	
 //		worldX=gp.tileSize*12;
 //		worldY=gp.tileSize*10;
@@ -71,7 +71,7 @@ public class Player extends Entity{
 		level = 1;
 		maxLife = 8;
 		life = maxLife;
-		strength = 1;
+		strength = 5;
 		dexterity = 1;
 		exp = 0;
 		nextLevelExp = 5;
@@ -97,6 +97,8 @@ public class Player extends Entity{
 		
 	}	
 	public void setDefaultPosition() {
+		
+		gp.currentMap = 0;
 		worldX=gp.tileSize*23;
 		worldY=gp.tileSize*21;
 		direction ="down";
@@ -422,13 +424,18 @@ public class Player extends Entity{
 		}
 		
 		if(life > maxLife) {life = maxLife;}
+		
 		if(mana > maxMana) {mana = maxMana;}
-		if(life<=0) {
-			gp.gameState = gp.gameOverState;
-			gp.ui.commandNum = -1;
-			gp.stopMusic();
-			gp.playSE(12);
-		}
+		
+		if(keyh.godModOn == false) {
+			if(life<=0) {
+				gp.gameState = gp.gameOverState;
+				gp.ui.commandNum = -1;
+				gp.stopMusic();
+				gp.playSE(12);
+			}
+		
+	}
 		
 		
 		

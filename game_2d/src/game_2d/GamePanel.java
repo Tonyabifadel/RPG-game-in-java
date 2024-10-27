@@ -42,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable{
 	//Max map is how many map we can create
 	public final int maxMap = 10;
 	//
-	public int currentMap = 0;
+	public int currentMap = 2;
 	
 	int screenWidth2 = screenWidth;
 	int screenHeight2 = screenHeight;
@@ -155,6 +155,7 @@ public class GamePanel extends JPanel implements Runnable{
 	
 	public void resetGame(boolean restart) {
 		
+		currentArea = outside;
 		player.setDefaultPosition();
 		player.restoreStatus();
 		player.resetCounter();
@@ -416,7 +417,8 @@ public class GamePanel extends JPanel implements Runnable{
 			g2.drawString("WorldY: "+player.worldY, x , y);y+=lineheight;
 			g2.drawString("Col: "+ (player.worldX +  player.solidArea.x )/tileSize , x , y);y+=lineheight;
 			g2.drawString("Row: "+  (player.worldY +  player.solidArea.y )/tileSize  , x , y);y+=lineheight;
-			g2.drawString("Draw Time: " +passed , x , y);	
+			g2.drawString("Draw Time: " +passed , x , y); y+=lineheight;
+			g2.drawString("God Mode: " +keyH.godModOn , x , y);	
 		}
 		
 

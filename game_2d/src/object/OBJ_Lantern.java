@@ -17,7 +17,7 @@ public class OBJ_Lantern extends Entity {
 		description = "[" + name + "]\nShine the way";
 		
 		price = 200;
-		lightRadius = 250;
+		lightRadius = 350;
 	}
 
 }

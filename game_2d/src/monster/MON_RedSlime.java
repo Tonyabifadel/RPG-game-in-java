@@ -79,7 +79,7 @@ public class MON_RedSlime extends Entity{
 			//Check if it starts chasing
 			checkStartChasing(gp.player , 5 , 100);
 			
-			getRandomDirection();
+			getRandomDirection(120);
 		}
 		
 	

@@ -9,8 +9,8 @@ public class KeyHandler implements KeyListener {
 	GamePanel gp;
 	public boolean upPressed , downPressed,leftPressed , rightPressed , enterPressed , shotKeyPressed , spacePressed;
 	
-	boolean showDebugText = false;
-	
+	public boolean showDebugText = false;
+	public boolean godModOn = false;
 	
 	public KeyHandler(GamePanel gp) {
 		this.gp = gp;
@@ -390,6 +390,16 @@ public class KeyHandler implements KeyListener {
 			shotKeyPressed=true;
 		}
 		
+		
+		if(code==KeyEvent.VK_G){
+			if(godModOn == false) {
+				godModOn = true;
+			}
+			else if(godModOn == true) {
+				godModOn = false;
+			}
+			
+		}
 		
 	}
 

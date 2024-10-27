@@ -79,10 +79,20 @@ public class CollisionChecker {
 	//check if entity is player
 	//then return index of  object
 public int checkObject(Entity entity, boolean player) {
-    int index = 999;
+
+	int index = 999;
+	
+	 
+	 //Use a temp direction when being knockBack
+	 String direction = entity.direction;
+	 if(entity.knockBack == true) {
+		 direction = entity.KnockBackDirection;
+	 }
+	 
 
     for (int i = 0; i < gp.obj[1].length; i++) {
-        if (gp.obj[gp.currentMap][i] != null) {
+        
+    	if (gp.obj[gp.currentMap][i] != null) {
 
       
             // Get entity solid area position
@@ -94,7 +104,7 @@ public int checkObject(Entity entity, boolean player) {
             gp.obj[gp.currentMap][i].solidArea.y = gp.obj[gp.currentMap][i].worldY + gp.obj[gp.currentMap][i].solidArea.y;
 
             // Check for collision based on the direction
-            switch (entity.direction) {
+            switch (direction) {
                 case "up":entity.solidArea.y -= entity.speed;break;
                 case "down":entity.solidArea.y += entity.speed;break;
                 case "left":entity.solidArea.x -= entity.speed;break;

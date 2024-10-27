@@ -127,6 +127,7 @@ public class Entity {
 	public boolean offBalance = false;
 	public Entity loot;
 	public boolean opened = false;
+	public boolean inRage = false;
 	
 	public Entity(GamePanel gp) {
 		this.gp = gp;
@@ -201,13 +202,27 @@ public class Entity {
 		return (worldY + solidArea.y)/gp.tileSize;
 	}
 	
+	
+	
+	public int getCenterX() {
+	
+		int centerX = worldX + left1.getWidth()/2;
+		return centerX;
+	}
+	
+	public int getCenterY() {
+		int centerY = worldY + up1.getHeight()/2;
+		return centerY;
+	}
+	
 	public int getXDistance(Entity target) {
-		int xDistance = Math.abs(worldX - target.worldX);
+		int xDistance = Math.abs(getCenterX() - target.getCenterX());
 		return xDistance;	
 	}
 	
+	
 	public int getYDistance(Entity target) {
-		int yDistance = Math.abs(worldY - target.worldY);
+		int yDistance = Math.abs(getCenterY() - target.getCenterY());
 		return yDistance;	
 	}
 	
@@ -360,25 +375,26 @@ public class Entity {
 	public void checkAttackOrNot(int rate , int straight , int horizontal){
 		
 		boolean targetInRange = false;
+		
 		int xDis = getXDistance(gp.player);
 		int yDis = getYDistance(gp.player);
 		
 		switch(direction) {
 		case"up":
-			if(gp.player.worldX < worldY && yDis < straight && xDis < horizontal) {
+			if(gp.player.getCenterY() < getCenterY() && yDis < straight && xDis < horizontal) {
 				targetInRange = true;
 			}break;
 		case"down":
-			if(gp.player.worldY > worldY && yDis < straight && xDis < horizontal) {
+			if(gp.player.getCenterY() > getCenterY() && yDis < straight && xDis < horizontal) {
 				targetInRange = true;
 			}break;
 			
 		case"left":
-			if(gp.player.worldX < worldX && yDis < horizontal && xDis < straight) {
+			if(gp.player.getCenterX() < getCenterX() && yDis < horizontal && xDis < straight) {
 				targetInRange = true;
 			}break;
 		case"right":
-			if(gp.player.worldX > worldX && yDis < horizontal && xDis < straight) {
+			if(gp.player.getCenterX()  > getCenterX()  && yDis < horizontal && xDis < straight) {
 				targetInRange = true;
 			}break;
 		}
@@ -396,10 +412,10 @@ public class Entity {
 		}
 	}
 	
-	public void getRandomDirection() {
+	public void getRandomDirection(int interval) { 
 		actionLockCounter++;
 		
-		if(actionLockCounter ==120) {
+		if(actionLockCounter > interval) {
 			Random random = new Random();
 			int i = random.nextInt(100)+1;
 			
@@ -643,6 +659,31 @@ public class Entity {
 		
 	}
 	
+	public void moveTowardPlayer(int interval) {
+		actionLockCounter++;
+		
+		if(actionLockCounter > interval) {
+			
+			if(getXDistance(gp.player)> getYDistance(gp.player)){
+				if(gp.player.getCenterX() < getCenterX()) {
+					direction = "left";
+				}
+				else {
+					direction = "right";
+				}
+			}
+			else if (getXDistance(gp.player) < getYDistance(gp.player)){
+				if(gp.player.getCenterY() < getCenterY()) {
+					direction = "up";
+				}
+				else {
+					direction = "down";
+				}
+			}
+			actionLockCounter = 0;
+		}
+		
+	}
 	public String getOppositeDirection(String direction) {
 		
 		String oppositeDirection = "";
@@ -656,16 +697,17 @@ public class Entity {
 	}
 
 	public void draw(Graphics2D g2){
+		
 		BufferedImage image = null;
 		int screenX = worldX - gp.player.worldX + gp.player.screenX;
 		int screenY = worldY - gp.player.worldY + gp.player.screenY;
 		
 		
 		//only draw the visible tiles
-		if(worldX +gp.tileSize > gp.player.worldX -gp.player.screenX&&
+			 if(worldX +gp.tileSize *5 > gp.player.worldX -gp.player.screenX&&
 				worldX -gp.tileSize < gp.player.worldX + gp.player.screenX&&
-				worldY +gp.tileSize> gp.player.worldY - gp.player.screenY&&
-				worldY -gp.tileSize< gp.player.worldY + gp.player.screenY) {
+				worldY +gp.tileSize*5> gp.player.worldY - gp.player.screenY&&
+				worldY -gp.tileSize < gp.player.worldY + gp.player.screenY) {
 			
 			int tempScreenX = screenX;
 			int tempScreenY = screenY;
@@ -677,7 +719,7 @@ public class Entity {
 					if(spriteNum==2) {image =up2;}	
 				}
 				if(attacking == true) {
-					tempScreenY = screenY - gp.tileSize; 
+					tempScreenY = screenY -up1.getHeight(); 
 					if(spriteNum ==1) {image = attackUp1;}
 					if(spriteNum ==2) {image = attackUp2;}
 				}
@@ -700,7 +742,7 @@ public class Entity {
 					if(spriteNum==2) {image =left2;}	
 				}
 				if(attacking == true) {
-					tempScreenX = screenX - gp.tileSize;
+					tempScreenX = screenX - left1.getWidth();
 					if(spriteNum ==1) {image = attackLeft1;}
 					if(spriteNum ==2) {image = attackLeft2;}
 				}break;
