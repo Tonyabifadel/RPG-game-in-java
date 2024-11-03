@@ -19,7 +19,8 @@ public class OBJ_Fireball extends Projectile{
 		//maxlife is how many frames the fireball stay on screen
 		maxLife = 80;
 		life = maxLife;
-		attack = 2;
+		
+		attack = 1;
 		useCost = 1;
 		alive = false;
 		

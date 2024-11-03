@@ -23,6 +23,7 @@ public class MON_SkeletonLord extends Entity{
 		maxLife = 50;
 		life = maxLife;
 		type = type_monster;
+		boss = true;
 		attack = 10;
 		defense = 2;
 		exp = 50;
