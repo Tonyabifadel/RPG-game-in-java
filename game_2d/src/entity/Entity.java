@@ -65,6 +65,8 @@ public class Entity {
 	public int dialogueIndex = 0;
 	public Entity attacker;
 	public Entity linkedEntity;
+	public boolean temp = false;
+	
 	
 	public BufferedImage image , image2, image3;
 	public boolean collision = false;
@@ -129,6 +131,8 @@ public class Entity {
 	public Entity loot;
 	public boolean opened = false;
 	public boolean inRage = false;
+	public boolean sleep = false;
+	public boolean drawing = true;
 	
 	public Entity(GamePanel gp) {
 		this.gp = gp;
@@ -540,91 +544,96 @@ public class Entity {
 	
 	public void update() {
 		
-		if(knockBack==true) {
-			
-			checkCollision();
-			
-			if(collisionOn == true) {
+		if(sleep == false) {
+			if(knockBack==true) {
 				
-				knockBackCounter = 0;
-				knockBack = false;
-				speed = defaultSpeed;
+				checkCollision();
 				
-			}
-			else if(collisionOn == false){
-				
-				switch(KnockBackDirection) {
-				case"up": worldY -= speed;   break;
-				case"down":	worldY+=speed;   break;
-				case"left":	worldX -= speed; break;
-				case"right":worldX += speed; break;
+				if(collisionOn == true) {
+					
+					knockBackCounter = 0;
+					knockBack = false;
+					speed = defaultSpeed;
+					
 				}
-			}
-			knockBackCounter++;
-			
-			//if we want more knockBack increase the number 10
-			if(knockBackCounter == 10) {
-				knockBackCounter = 0;
-				knockBack = false;
-				speed = defaultSpeed;
-			}
-		}
-		
-		else if(attacking == true) {
-			attacking();
-		}
-		
-		else {
-			setAction();
-			checkCollision();
-			
-			//IF collision is false, player can move
-			if(collisionOn==false) {
-				switch(direction) {
-				case"up": worldY -= speed;   break;
-				case"down":	worldY+=speed;   break;
-				case"left":	worldX -= speed; break;
-				case"right":worldX += speed; break;
+				else if(collisionOn == false){
+					
+					switch(KnockBackDirection) {
+					case"up": worldY -= speed;   break;
+					case"down":	worldY+=speed;   break;
+					case"left":	worldX -= speed; break;
+					case"right":worldX += speed; break;
+					}
+				}
+				knockBackCounter++;
 				
+				//if we want more knockBack increase the number 10
+				if(knockBackCounter == 10) {
+					knockBackCounter = 0;
+					knockBack = false;
+					speed = defaultSpeed;
 				}
 			}
 			
-			spriteCounter++;
-			if(spriteCounter>12) {
-				if(spriteNum==1) {
-					spriteNum=2;
+			else if(attacking == true) {
+				attacking();
+			}
+			
+			else {
+				setAction();
+				checkCollision();
+				
+				//IF collision is false, player can move
+				if(collisionOn==false) {
+					switch(direction) {
+					case"up": worldY -= speed;   break;
+					case"down":	worldY+=speed;   break;
+					case"left":	worldX -= speed; break;
+					case"right":worldX += speed; break;
+					
+					}
 				}
-				else if(spriteNum==2) {
-					spriteNum=1;
+				
+				spriteCounter++;
+				if(spriteCounter>12) {
+					if(spriteNum==1) {
+						spriteNum=2;
+					}
+					else if(spriteNum==2) {
+						spriteNum=1;
+					}
+					spriteCounter=0;
 				}
-				spriteCounter=0;
+				
+					
 			}
 			
 				
-		}
-		
 			
-		
-		if(invincible==true) {
-			invincibleCounter++;
-			if(invincibleCounter>60) {
-				invincible = false;
-				invincibleCounter=0;
+			if(invincible==true) {
+				invincibleCounter++;
+				if(invincibleCounter>60) {
+					invincible = false;
+					invincibleCounter=0;
+				}
+				
 			}
 			
-		}
-		
-		if(shotAvailableCounter < 30) {
-			shotAvailableCounter++;
-		}
-		
-		if(offBalance == true) {
-			offBalanceCounter++;
-			if(offBalanceCounter > 60) {
-				offBalance = false;
-				offBalanceCounter = 0;
+			if(shotAvailableCounter < 30) {
+				shotAvailableCounter++;
+			}
+			
+			if(offBalance == true) {
+				offBalanceCounter++;
+				if(offBalanceCounter > 60) {
+					offBalance = false;
+					offBalanceCounter = 0;
+				}
 			}
 		}
+		
+		
+
 	}	
 	
 	public void damagePlayer(int attack) {

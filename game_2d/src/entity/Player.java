@@ -71,8 +71,8 @@ public class Player extends Entity{
 		level = 1;
 		maxLife = 8;
 		life = maxLife;
-		strength = 5;
-		dexterity = 1;
+		strength = 5; // more strength , more damage he gives
+		dexterity = 1; //more dexterity , less damage he receives
 		exp = 0;
 		nextLevelExp = 5;
 		coin = 200 ;
@@ -785,7 +785,11 @@ public class Player extends Entity{
 				g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 0.4f));
 			}
 			
-			g2.drawImage(image,tempScreenX ,tempScreenY ,null);
+			if(drawing == true) {
+				g2.drawImage(image,tempScreenX ,tempScreenY ,null);
+			
+			}
+			
 			
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER , 1f));
 	
