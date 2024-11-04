@@ -290,6 +290,7 @@ public class KeyHandler implements KeyListener {
 					gp.gameState = gp.playState;
 					System.out.println("Do some thief specific stuff");
 					gp.playerMusic(0);
+	
 
 				}
 				
@@ -298,7 +299,7 @@ public class KeyHandler implements KeyListener {
 					gp.gameState = gp.playState;
 					System.out.println("Do some Sorcerer specific stuff");	
 					gp.playerMusic(0);
-}
+	}
 				
 				if(gp.ui.commandNum==3) {
 					gp.ui.titleScreenState=0;

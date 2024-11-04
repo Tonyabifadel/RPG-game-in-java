@@ -1,5 +1,6 @@
 package game_2d;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class Main {
@@ -11,10 +12,14 @@ public class Main {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(false);
 		window.setTitle("2d Adventure");
-		//window.setUndecorated(true);
+		//new Main().setIcon();
 		
 		GamePanel gamePanel = new GamePanel();
 		window.add(gamePanel);
+		
+		if(gamePanel.fullScreenOn == true) {
+			window.setUndecorated(true);
+		}
 
 		window.pack();
 		
@@ -25,6 +30,12 @@ public class Main {
 		gamePanel.setupGame();
 		gamePanel.StartGameThread();
 			
+	}
+	
+	public void setIcon() {
+		ImageIcon  icon  = new ImageIcon(getClass().getClassLoader().getResource("game_2d/res/player/boy_down_1.png"));
+		window.setIconImage(icon.getImage());
+		
 	}
 
 }
